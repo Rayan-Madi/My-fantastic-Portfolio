@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+    --primary: rgba(132, 70, 255, 0.9);
+    --secondary: rgba(89, 205, 255, 0.9);
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url('cerisier\ cyberpunk.gif');
+    background-position: center;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+hr {
+    border: none;
+    border-top: 4px solid #333;
+    width: 80%;
+    margin: 20px auto;
+}
+
+footer {
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    position: relative;
+}
+
+footer .Bottom {
+    display: block;
+}
+
+footer p {
+    margin: 0;
+    padding: 10px 0;
+    font-weight: 70; 
+    color: rgb(255, 255, 255); 
+    font-size: 1em; 
+}
+
+.card {
+    margin: 120px auto 60px;
+    position: relative;
+    width: 90%;
+    max-width: 950px;
+    height: auto;
+    min-height: 900px;
+    background: var(--glass);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(207, 14, 14, 0.2);
+    box-shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+    padding-bottom: 40px;
+}
+
+.content {
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+}
+
+h2 {
+    color: rgb(185, 128, 183);
+    font-size: 1.75em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+p {
+    color: rgb(7, 194, 163);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.premier, .deuxieme, .troisieme, .quatrieme {
+    color: rgb(7, 194, 163);
+    text-align: center;
+    line-height: 1.6;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.navbar {
+    top: 0;
+    background: var(--glass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    backdrop-filter: blur(15px);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar .logo a {
+    color: rgb(169, 63, 168);
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    transition: all 0.3s ease;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: rgb(22, 123, 174);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.nav-links a:hover {
+    color: #8d28a9;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(22, 123, 174);
+    z-index: 1001;
+}
+
+.projets {
+    text-align: center;
+    margin: 40px auto;
+    position: relative;
+    width: 90%;
+    max-width: 980px;
+    height: auto;
+    min-height: 500px;
+    background: var(--glass);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(207, 14, 14, 0.2);
+    box-shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+    padding: 20px;
+}
+
+.contentnants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+    width: 100%;
+    max-width: 390px;
+    height: 155px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: 0.5s;
+    cursor: pointer;
+    object-fit: cover;
+    margin: 10px auto;
+    display: block;
+}
+
+.lesprojets:hover, .lesprojets1:hover, .lesprojets2:hover, .lesprojets3:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 992px) {
+    .card {
+        margin-top: 100px;
+    }
+    
+    .premier, .deuxieme, .troisieme, .quatrieme {
+        margin-left: 0;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 12px 15px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 10px;
+    }
+
+    .card {
+        width: 90%;
+        margin: 80px auto 40px;
+        min-height: auto;
+        padding: 20px 10px;
+    }
+
+    .content {
+        padding: 20px 10px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+        position: static;
+        width: 85%;
+        height: auto;
+        aspect-ratio: 16/9;
+        margin: 15px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar .logo a {
+        font-size: 20px;
+    }
+
+    .hamburger {
+        font-size: 20px;
+    }
+
+    .card {
+        margin-top: 70px;
+        padding: 15px 5px;
+    }
+
+    .content {
+        padding: 15px 5px;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    p, .premier, .deuxieme, .troisieme, .quatrieme {
+        font-size: 0.9em;
+    }
+
+    .lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+        width: 95%;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotateX(0) rotateY(0);
+    }
+    25% {
+        transform: translateY(-10px) rotateX(3deg) rotateY(3deg);
+    }
+    75% {
+        transform: translateY(10px) rotateX(-3deg) rotateY(-3deg);
+    }
+}

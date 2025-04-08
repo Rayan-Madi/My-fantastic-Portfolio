@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+    --primary: rgba(67, 60, 80, 0.9);
+    --secondary: rgba(89, 205, 255, 0.9);
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
+    background-position: center;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-group1, .form-group2, .form-group0 {
+    background: rgba(255, 255, 255, 0.2);  
+    border-radius: 25px;                  
+    padding: 15px;                        
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  
+    backdrop-filter: blur(10px);          
+    width: 100%;                           
+    margin: 10px 0;                       
+    display: flex;
+    flex-direction: column;               
+    align-items: center;                   
+}
+
+.form-group1 input,
+.form-group1 textarea,
+.form-group2 input,
+.form-group2 textarea,
+.form-group0 input,
+.form-group0 textarea {
+    width: 100%;  
+    border: none; 
+    padding: 10px;
+    border-radius: 15px;  
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.3); 
+    color: #fff;  
+    font-size: 1em;
+    transition: all 0.3s ease;  
+}
+
+.form-group1 input:focus,
+.form-group1 textarea:focus,
+.form-group2 input:focus,
+.form-group2 textarea:focus,
+.form-group0 input:focus,
+.form-group0 textarea:focus {
+    background: rgba(0, 0, 0, 0.5); 
+    outline: none;
+    box-shadow: 0 0 8px rgba(132, 70, 255, 0.8); 
+}
+
+.form-group2 textarea {
+    resize: none; 
+    min-height: 100px; 
+    max-height: 300px; 
+    overflow-y: auto;  
+    white-space: pre-wrap; 
+}
+
+.card {
+    position: relative;
+    margin: auto;
+    margin-top: 108px; /* Ajout de marge similaire à la page d'accueil */
+    width: 650px;
+    height: 640px;
+    background: var(--glass);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(207, 14, 14, 0.2);
+    box-shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
+    transform-style: preserve-3d;
+}
+
+.content {
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+h2 {
+    color: rgb(185, 128, 183);
+    font-size: 1.75em;
+    margin-bottom: 10px;
+}
+
+p {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+button {
+    padding: 12px 30px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+button:hover {
+    letter-spacing: 2px;
+    box-shadow: 0 5px 15px rgba(70, 255, 138, 0.4);
+}
+
+.navbar {
+    top: 0;
+    background: var(--glass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px; /* Ajusté pour correspondre à la page d'accueil */
+    backdrop-filter: blur(15px);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar .logo a {
+    color: rgb(169, 63, 168);
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: bold; /* Ajouté pour correspondre à la page d'accueil */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    transition: all 0.3s ease; /* Ajouté pour la transition */
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: rgb(22, 123, 174);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    padding: 5px 10px; /* Ajouté pour correspondre à la page d'accueil */
+    border-radius: 5px; /* Ajouté pour correspondre à la page d'accueil */
+}
+
+.nav-links a:hover {
+    color: #8d28a9;
+    background: rgba(255, 255, 255, 0.1); /* Ajouté pour correspondre à la page d'accueil */
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(22, 123, 174);
+    z-index: 1001; /* Ajouté pour correspondre à la page d'accueil */
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotateX(0) rotateY(0);
+    }
+    25% {
+        transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+    }
+    75% {
+        transform: translateY(20px) rotateX(-5deg) rotateY(-5deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 90%; 
+        max-width: 350px;
+        margin: 80px auto; /* Ajusté pour être cohérent avec la page d'accueil */
+    }
+
+    button {
+        width: 100%; 
+        padding: 15px; 
+    }
+
+    .navbar {
+        padding: 12px 15px; /* Ajusté pour correspondre à la page d'accueil */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 60px; /* Ajusté pour correspondre à la page d'accueil */
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 0;
+        max-height: 0; /* Utilisation de max-height au lieu de display:none pour les animations */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 10px;
+    }
+}
+
+.form-input {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.form-input:focus {
+    background: rgba(0, 0, 0, 0.5);
+    outline: none;
+    box-shadow: 0 0 8px rgba(132, 70, 255, 0.8);
+}

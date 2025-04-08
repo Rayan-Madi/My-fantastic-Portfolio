@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes projets</title>
+    <link rel="icon" href="jacket.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="mesprojets.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">Mes Projets</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="mesprojets.html">Mes Projets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="card">
+        <div class="content">
+            <h2>Mes différents Projets :</h2>
+            
+            <a href="mesprojets.html"><img src="stonks.jpg" alt="Projet 1" class="lesprojets3"></a>
+            <p class="premier">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quibusdam delectus perferendis similique provident recusandae possimus nam quas placeat. Nulla tenetur numquam aperiam, nobis animi illum? Reiciendis porro deserunt accusantium!</p>
+            
+            <a href="mesprojets.html"><img src="stonks.jpg" alt="Projet 2" class="lesprojets2"></a>
+            <p class="deuxieme">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci perferendis ad minima suscipit est corporis tempore molestias aspernatur provident unde. Minima tenetur ipsa omnis? Delectus numquam consectetur ipsam incidunt vel.</p>
+            
+            <a href="mesprojets.html"><img src="stonks.jpg" alt="Projet 3" class="lesprojets1"></a>
+            <p class="troisieme">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis esse voluptatibus nihil animi aliquam ea consectetur voluptas nostrum assumenda hic, voluptates eaque nulla ut magni harum a culpa. Minus, eveniet!</p>
+            
+            <a href="mesprojets.html"><img src="stonks.jpg" alt="Projet 4" class="lesprojets"></a>
+            <p class="quatrieme">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam rerum eveniet corporis provident accusantium sint dolores magnam dolor, veniam nemo magni quo explicabo architecto sequi autem quaerat. Repellat, nulla voluptatum.</p>
+        </div>
+    </div>
+    
+    <footer class="Bottom"> 
+        <hr> 
+        <p>Copyright © Madi Rayan 2025. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Sélection des éléments
+        const hamburger = document.getElementById('hamburger-icon');
+        const navLinks = document.querySelector('.nav-links');
+
+        // Fonction pour basculer le menu
+        function toggleMenu(event) {
+            event.stopPropagation(); // Empêche la propagation de l'événement
+            navLinks.classList.toggle('active');
+            
+            // Change l'icône hamburger en X quand le menu est ouvert
+            const icon = hamburger.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // Ouvre/ferme le menu au clic sur l'icône
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Ferme le menu quand on clique sur un lien
+        const navItems = document.querySelectorAll('.nav-links a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                
+                // Remet l'icône hamburger
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Ferme le menu quand on clique en dehors
+        document.addEventListener('click', (event) => {
+            if (navLinks.classList.contains('active') && !event.target.closest('.navbar')) {
+                navLinks.classList.remove('active');
+                
+                // Remet l'icône hamburger
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Empêche la fermeture du menu lorsqu'on clique à l'intérieur
+        navLinks.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        // Ajuste l'animation en fonction de la taille de l'écran
+        function adjustAnimation() {
+            const width = window.innerWidth;
+            const cards = document.querySelectorAll('.card, .projets');
+            
+            if (width <= 768) {
+                cards.forEach(card => {
+                    card.style.animation = 'none';
+                });
+            } else {
+                cards.forEach(card => {
+                    card.style.animation = 'float 6s ease-in-out infinite';
+                });
+            }
+        }
+
+        // Exécute au chargement et au redimensionnement
+        window.addEventListener('load', adjustAnimation);
+        window.addEventListener('resize', adjustAnimation);
+    </script>
+</body>
+</html>

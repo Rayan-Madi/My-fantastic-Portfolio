@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="icon" href="jacket.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">Accueil</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="mesprojets.html">Mes Projets</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+    <div class="card">
+        <div class="content">
+            <img src="profile.PNG" width="120px" class="avatar">
+            <h2>Rayan Madi</h2>
+            <p>Developpeur Fullstack <br> Donnez vie à vos projets !</p>
+            <div class="socials">
+                <a href="https://www.linkedin.com/in/rayan-madi-646670346"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/rayannn075"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://github.com/Rayan-Madi"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <button><a href="contact.html">Contact</a></button>
+        </div>
+    </div>
+    <div class="projets">
+        <div class="contentnants">
+            <h2>Mes Projets</h2>
+         <a href="mesprojets.html"><img src="stonks.jpg" width="120px" class="lesprojets"> </a>
+         <a href="mesprojets.html"><img src="stonks.jpg" width="120px" class="lesprojets1"> </a>
+         <a href="mesprojets.html"><img src="stonks.jpg" width="120px" class="lesprojets2"> </a>
+         <a href="mesprojets.html"><img src="stonks.jpg" width="120px" class="lesprojets3"> </a>
+        </div>
+    </div>
+    <footer class="Bottom"> 
+        <hr> 
+        <p>Copyright © Madi Rayan 2025. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Sélection des éléments
+        const hamburger = document.getElementById('hamburger-icon');
+        const navLinks = document.querySelector('.nav-links');
+
+        // Fonction pour basculer le menu
+        function toggleMenu(event) {
+            event.stopPropagation(); // Empêche la propagation de l'événement
+            navLinks.classList.toggle('active');
+            
+            // Change l'icône hamburger en X quand le menu est ouvert
+            const icon = hamburger.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // Ouvre/ferme le menu au clic sur l'icône
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Ferme le menu quand on clique sur un lien
+        const navItems = document.querySelectorAll('.nav-links a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                
+                // Remet l'icône hamburger
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Ferme le menu quand on clique en dehors
+        document.addEventListener('click', (event) => {
+            if (navLinks.classList.contains('active') && !event.target.closest('.navbar')) {
+                navLinks.classList.remove('active');
+                
+                // Remet l'icône hamburger
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Empêche la fermeture du menu lorsqu'on clique à l'intérieur
+        navLinks.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        // La fonction adjustAnimation() a été supprimée
+        // Les media queries CSS gèrent maintenant l'animation
+    </script>
+</body>  
+</html>
