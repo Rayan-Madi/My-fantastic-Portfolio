@@ -244,29 +244,13 @@ button:hover {
         padding: 10px;
     }
     
-    /* Styles pour les champs de formulaire sur mobile */
-    .form-group0,
-    .form-group1,
-    .form-group2 {
-        background: rgba(50, 50, 50, 0.7); /* Fond plus foncé pour les conteneurs */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    }
-    
+    /* Ajout de styles pour les champs de formulaire sur mobile */
     .form-group0 input,
     .form-group1 input,
     .form-group2 textarea,
     .form-input {
-        background: rgba(80, 80, 80, 0.6); /* Fond plus foncé pour les champs */
-        color: white;
-    }
-    
-    /* Améliorer la visibilité des labels */
-    .form-group0 label,
-    .form-group1 label,
-    .form-group2 label {
-        color: white;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        background: rgba(100, 100, 100, 0.5); /* Fond plus foncé et moins transparent pour mobile */
+        color: white; /* S'assurer que le texte est visible */
     }
 }
 
