@@ -289,3 +289,87 @@ button:hover {
     outline: none;
     box-shadow: 0 0 8px rgba(132, 70, 255, 0.8);
 }
+@media (max-width: 768px) {
+    .card {
+        width: 90%; 
+        max-width: 350px;
+        margin: 80px auto; /* Ajusté pour être cohérent avec la page d'accueil */
+    }
+
+    button {
+        width: 100%; 
+        padding: 15px; 
+    }
+
+    .navbar {
+        padding: 12px 15px; /* Ajusté pour correspondre à la page d'accueil */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 60px; /* Ajusté pour correspondre à la page d'accueil */
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 0;
+        max-height: 0; /* Utilisation de max-height au lieu de display:none pour les animations */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 10px;
+    }
+    
+    /* Styles pour les conteneurs de formulaire sur mobile */
+    .form-group0,
+    .form-group1,
+    .form-group2 {
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(207, 14, 14, 0.2);
+        box-shadow: 0 8px 20px rgba(52, 37, 37, 0.5);
+    }
+    
+    /* Styles pour les champs de saisie du formulaire */
+    .form-group0 input,
+    .form-group1 input,
+    .form-group2 textarea,
+    .form-input {
+        background: rgba(80, 80, 80, 0.6);
+        color: white;
+    }
+    
+    /* Amélioration de la visibilité des labels */
+    .form-group0 label,
+    .form-group1 label,
+    .form-group2 label {
+        color: rgb(185, 128, 183);
+        font-weight: bold;
+    }
+}
