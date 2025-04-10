@@ -243,6 +243,15 @@ button:hover {
         display: block;
         padding: 10px;
     }
+    
+    /* Ajout de styles pour les champs de formulaire sur mobile */
+    .form-group0 input,
+    .form-group1 input,
+    .form-group2 textarea,
+    .form-input {
+        background: rgba(100, 100, 100, 0.5); /* Fond plus foncé et moins transparent pour mobile */
+        color: white; /* S'assurer que le texte est visible */
+    }
 }
 
 .form-input {
