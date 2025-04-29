@@ -264,7 +264,7 @@ button:hover {
     .form-group0 label,
     .form-group1 label,
     .form-group2 label {
-        color: rgb(72, 66, 66);
+        color: white;
         font-weight: bold;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     }
