@@ -118,6 +118,7 @@ button {
     cursor: pointer;
     transition: 0.3s;
     margin-top: 20px;
+    margin-left: 67vh;
 }
 
 button:hover {
@@ -190,7 +191,7 @@ button:hover {
 }
 
 footer {
-    margin-top: auto;
+    margin-top: 50px; /* Espace entre le contenu et le footer */
     padding: 20px;
     text-align: center;
     background: var(--glass);
