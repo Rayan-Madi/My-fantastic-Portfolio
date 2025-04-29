@@ -12,25 +12,16 @@
     box-sizing: border-box;
 }
 
-/* FIX PRINCIPAL POUR LES BANDES BLANCHES */
-html {
-    height: 100%;
-}
-
 body {
-    min-height: 100%;
+    min-height: 100vh;
     display: grid;
-    background-color: black; /* Couleur de secours */
-    background-image: linear-gradient(to top,
+    background: linear-gradient(to top,
         rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url('background2.gif');
     background-position: center;
     background-size: cover;
     font-family: 'Segoe UI', sans-serif;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 
-/* Le reste de votre CSS original inchangé */
 hr {
     border: none;
     border-top: 4px solid #333;
