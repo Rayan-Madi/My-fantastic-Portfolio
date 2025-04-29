@@ -14,8 +14,7 @@
 
 body {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
     background-position: center;
     background-size: cover;
@@ -76,15 +75,13 @@ body {
     margin: auto;
     margin-top: 108px; /* Ajout de marge similaire à la page d'accueil */
     width: 650px;
-    height: auto; /* Changé de fixe à auto pour mieux s'adapter */
-    min-height: 600px; /* Hauteur minimale pour maintenir apparence sur desktop */
+    height: 640px;
     background: var(--glass);
     border-radius: 20px;
     backdrop-filter: blur(15px);
     border: 1px solid rgba(207, 14, 14, 0.2);
     box-shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
     transform-style: preserve-3d;
-    margin-bottom: 54px; /* Ajout de marge pour le footer */
 }
 
 .content {
@@ -190,19 +187,87 @@ button:hover {
     }
 }
 
-footer {
-    margin-top: auto;
-    padding: 20px;
-    text-align: center;
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    width: 100%;
-}
+@media (max-width: 768px) {
+    .card {
+        width: 90%; 
+        max-width: 350px;
+        margin: 80px auto; /* Ajusté pour être cohérent avec la page d'accueil */
+    }
 
-.copyright {
-    color: white;
-    font-size: 14px;
-    margin-bottom: 0;
+    button {
+        width: 100%; 
+        padding: 15px; 
+    }
+
+    .navbar {
+        padding: 12px 15px; /* Ajusté pour correspondre à la page d'accueil */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 60px; /* Ajusté pour correspondre à la page d'accueil */
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 0;
+        max-height: 0; /* Utilisation de max-height au lieu de display:none pour les animations */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 10px;
+    }
+    
+    /* Styles pour les champs de formulaire sur mobile */
+    .form-group0,
+    .form-group1,
+    .form-group2 {
+        background: rgba(50, 50, 50, 0.7); /* Fond plus foncé pour les conteneurs */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    .form-group0 input,
+    .form-group1 input,
+    .form-group2 textarea,
+    .form-input {
+        background: rgba(80, 80, 80, 0.6); /* Fond plus foncé pour les champs */
+        color: white;
+    }
+    
+    /* Améliorer la visibilité des labels */
+    .form-group0 label,
+    .form-group1 label,
+    .form-group2 label {
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
 }
 
 .form-input {
@@ -224,22 +289,11 @@ footer {
     outline: none;
     box-shadow: 0 0 8px rgba(132, 70, 255, 0.8);
 }
-
 @media (max-width: 768px) {
     .card {
         width: 90%; 
-        max-width: 450px;
-        margin: 80px auto 20px auto; /* Ajustement pour inclure de l'espace pour le footer */
-        min-height: 500px; /* Réduit la hauteur minimale sur mobile */
-        padding-bottom: 20px; /* Espace en bas du card */
-    }
-
-    .content {
-        padding: 20px; /* Réduit le padding sur mobile */
-    }
-
-    form {
-        width: 100%; /* Assurer que le formulaire prend toute la largeur */
+        max-width: 350px;
+        margin: 80px auto; /* Ajusté pour être cohérent avec la page d'accueil */
     }
 
     button {
@@ -300,8 +354,6 @@ footer {
         backdrop-filter: blur(15px);
         border: 1px solid rgba(207, 14, 14, 0.2);
         box-shadow: 0 8px 20px rgba(52, 37, 37, 0.5);
-        margin: 8px 0; /* Réduit la marge sur mobile */
-        padding: 12px; /* Réduit le padding sur mobile */
     }
     
     /* Styles pour les champs de saisie du formulaire */
@@ -311,7 +363,6 @@ footer {
     .form-input {
         background: rgba(80, 80, 80, 0.6);
         color: white;
-        padding: 8px; /* Réduit le padding sur mobile */
     }
     
     /* Amélioration de la visibilité des labels */
@@ -320,43 +371,5 @@ footer {
     .form-group2 label {
         color: rgb(185, 128, 183);
         font-weight: bold;
-        font-size: 0.95em; /* Légèrement plus petit sur mobile */
-    }
-    
-    h2 {
-        font-size: 1.5em; /* Légèrement plus petit sur mobile */
-    }
-    
-    /* Style du footer sur mobile */
-    footer {
-        padding: 15px;
-        position: relative;
-        bottom: 0;
-    }
-    
-    .copyright {
-        font-size: 12px;
-    }
-}
-
-/* Pour les très petits écrans */
-@media (max-width: 480px) {
-    .card {
-        width: 95%;
-        margin-top: 70px;
-    }
-    
-    .content {
-        padding: 15px;
-    }
-    
-    h2 {
-        font-size: 1.4em;
-    }
-    
-    .form-group0,
-    .form-group1,
-    .form-group2 {
-        padding: 10px;
     }
 }
