@@ -58,7 +58,7 @@ body {
 .form-group2 textarea:focus,
 .form-group0 input:focus,
 .form-group0 textarea:focus {
-    background: rgba(0, 0, 0, 0.5); 
+    background: rgba(64, 60, 60, 0.5); 
     outline: none;
     box-shadow: 0 0 8px rgba(132, 70, 255, 0.8); 
 }
@@ -84,6 +84,7 @@ body {
     border: 1px solid rgba(207, 14, 14, 0.2);
     box-shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
     transform-style: preserve-3d;
+    margin-bottom: 54px; /* Ajout de marge pour le footer */
 }
 
 .content {
@@ -190,6 +191,7 @@ button:hover {
 }
 
 footer {
+    margin-top: auto;
     padding: 20px;
     text-align: center;
     background: var(--glass);
