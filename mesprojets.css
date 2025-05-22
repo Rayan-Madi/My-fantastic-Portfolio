@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400..700&display=swap');
+
+:root {
+    --primary: rgba(67, 60, 80, 0.9);
+    --secondary: rgba(89, 205, 255, 0.9);
+    --accent: rgb(185, 128, 183);
+    --accent-hover: rgb(205, 148, 203);
+    --nav-link: rgb(22, 123, 174);
+    --nav-hover: #8d28a9;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-darker: rgba(35, 35, 35, 0.3);
+    --shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    position: relative;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Header et navigation */
+.navbar {
+    top: 0;
+    background: var(--glass-darker);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    backdrop-filter: blur(15px);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.navbar .logo a {
+    color: var(--accent);
+    font-size: 28px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    transition: var(--transition);
+}
+
+.navbar .logo a:hover {
+    text-shadow: 0 0 10px rgba(185, 128, 183, 0.6);
+    transform: scale(1.05);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    transition: var(--transition);
+}
+
+.nav-links li {
+    margin-left: 25px;
+}
+
+.nav-links a {
+    color: var(--nav-link);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 8px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--nav-hover);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.nav-links a.active {
+    border-bottom: 2px solid var(--accent);
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--nav-link);
+    z-index: 1001;
+    transition: var(--transition);
+}
+
+.hamburger:hover {
+    color: var(--nav-hover);
+}
+
+/* Card principale */
+.card {
+    position: relative;
+    width: 90%;
+    max-width: 950px;
+    background: var(--glass-darker);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow);
+    transform-style: preserve-3d;
+    overflow: hidden;
+    transition: var(--transition);
+    margin: 100px auto 40px;
+    padding-bottom: 40px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(52, 37, 37, 0.6);
+}
+
+.content {
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+h2 {
+    color: var(--accent);
+    font-size: 2em;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Projets */
+.lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    aspect-ratio: 16/9;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    cursor: pointer;
+    object-fit: cover;
+    margin: 20px auto 10px;
+    display: block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.lesprojets:hover, .lesprojets1:hover, .lesprojets2:hover, .lesprojets3:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.premier, .deuxieme, .troisieme, .quatrieme {
+    color: white;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0 auto 30px;
+    width: 90%;
+    max-width: 700px;
+}
+
+.plus {
+    color: var(--accent);
+    font-size: 3em;
+    margin: 15px 0;
+    transition: var(--transition);
+}
+
+.plus:hover {
+    transform: scale(1.1);
+    color: var(--accent-hover);
+}
+
+/* Style pour le lien "Voir plus sur GitHub" */
+.more-projects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--accent);
+    transition: var(--transition);
+}
+
+.more-projects span {
+    color: white;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.more-projects:hover span {
+    color: var(--accent);
+}
+
+/* Footer */
+footer {
+    background: var(--glass-darker);
+    padding: 20px 0;
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .card {
+        width: 95%;
+        margin: 80px auto 30px;
+    }
+    
+    .content {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 1.6em;
+    }
+
+    .navbar {
+        padding: 12px 15px;
+    }
+
+    .navbar .logo a {
+        font-size: 24px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(35, 35, 35, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
+    
+    .lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+        max-width: 100%;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        margin-top: 80px;
+        width: 95%;
+    }
+    
+    .content {
+        padding: 20px 15px;
+    }
+    
+    h2 {
+        font-size: 1.4em;
+    }
+    
+    .premier, .deuxieme, .troisieme, .quatrieme {
+        font-size: 0.9em;
+    }
+}
