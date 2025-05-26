@@ -11,6 +11,8 @@
     --glass-darker: rgba(35, 35, 35, 0.3);
     --shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
     --transition: all 0.3s ease;
+    --success-color: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.15);
 }
 
 * {
@@ -26,9 +28,109 @@ body {
     background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
     background-position: center;
     background-size: cover;
-    background-attachment: fixed; /* Fond fixe pendant le défilement */
+    background-attachment: fixed;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     position: relative;
+}
+
+/* Toast Notification Styles */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 350px;
+    max-width: 400px;
+    background: var(--glass-darker);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    transform: translateX(450px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-content {
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+}
+
+.toast-icon {
+    font-size: 24px;
+    color: var(--success-color);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.toast-title {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.toast-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.4;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--success-color), var(--accent));
+    border-radius: 0 0 15px 15px;
+    width: 100%;
+    transform-origin: left;
+    animation: toast-progress 5s linear forwards;
+}
+
+@keyframes toast-progress {
+    from {
+        transform: scaleX(1);
+    }
+    to {
+        transform: scaleX(0);
+    }
 }
 
 /* Header et navigation */
@@ -288,6 +390,20 @@ button:active {
 
 button.sending {
     background: linear-gradient(45deg, var(--accent), var(--secondary));
+    pointer-events: none;
+}
+
+button.sending span {
+    opacity: 0.7;
+}
+
+button.sending i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 button span {
@@ -299,7 +415,7 @@ button i {
     transition: transform 0.3s ease;
 }
 
-button:hover i {
+button:hover i:not(.fa-spinner) {
     transform: translateX(5px);
 }
 
@@ -397,6 +513,26 @@ footer {
 
 /* Media queries */
 @media (max-width: 768px) {
+    .toast {
+        min-width: 280px;
+        max-width: 320px;
+        right: 10px;
+        top: 10px;
+        transform: translateX(350px);
+    }
+    
+    .toast-content {
+        padding: 15px;
+    }
+    
+    .toast-title {
+        font-size: 15px;
+    }
+    
+    .toast-text {
+        font-size: 13px;
+    }
+
     .card {
         width: 90%; 
         max-width: 450px;
@@ -466,7 +602,6 @@ footer {
         padding: 10px;
     }
     
-    /* Styles pour les conteneurs de formulaire sur mobile */
     .form-group {
         background: var(--glass-darker);
         backdrop-filter: blur(15px);
@@ -475,7 +610,6 @@ footer {
         padding: 15px;
     }
     
-    /* Amélioration de la visibilité des labels */
     .form-group label {
         color: var(--accent);
         font-weight: bold;
@@ -489,6 +623,13 @@ footer {
 }
 
 @media (max-width: 480px) {
+    .toast {
+        min-width: 260px;
+        max-width: 280px;
+        right: 5px;
+        top: 5px;
+    }
+
     .card {
         max-width: 100%;
         margin-top: 80px;
