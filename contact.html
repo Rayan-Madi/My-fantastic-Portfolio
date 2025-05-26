@@ -11,6 +11,21 @@
     <meta name="description" content="Contactez Madi Rayan pour discuter de vos projets et idées">
 </head>
 <body>
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast">
+        <div class="toast-content">
+            <i class="toast-icon fas fa-check-circle"></i>
+            <div class="toast-message">
+                <span class="toast-title">Message envoyé !</span>
+                <span class="toast-text">Votre message a été envoyé avec succès. Je vous répondrai dans les plus brefs délais.</span>
+            </div>
+            <button class="toast-close" onclick="closeToast()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
     <header>
         <nav class="navbar">
             <div class="logo">
@@ -75,7 +90,6 @@
             </div>
         </div>
     </footer>
-
 <script src="contact.js"></script>
 </body>
 </html>
