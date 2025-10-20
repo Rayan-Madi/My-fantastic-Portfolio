@@ -59,7 +59,7 @@ hr {
     font-size: 28px;
     text-decoration: none;
     font-weight: bold;
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Raleway', sans-serif;
     transition: var(--transition);
 }
 
@@ -349,4 +349,5 @@ footer {
     .premier, .deuxieme, .troisieme, .quatrieme {
         font-size: 0.9em;
     }
+
 }
