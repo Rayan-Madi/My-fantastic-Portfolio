@@ -25,10 +25,10 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(../img/background.gif);
     background-position: center;
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: scroll;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     position: relative;
 }
@@ -233,14 +233,27 @@ main {
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow);
-    transform-style: preserve-3d;
     overflow: hidden;
-    transition: var(--transition);
+    will-change: transform;
+    transform-style: preserve-3d;
+    transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(52, 37, 37, 0.6);
+/* Glare reflet */
+.card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-glare {
+    opacity: 1;
 }
 
 .content {

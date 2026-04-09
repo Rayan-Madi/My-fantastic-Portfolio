@@ -23,22 +23,21 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
+    background: linear-gradient(to top, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 50%), url(../img/background.gif);
     background-position: center;
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: scroll;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
-    position: relative;
 }
 
 hr {
     border: none;
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255,255,255,0.08);
     width: 80%;
-    margin: 20px auto;
+    margin: 10px auto 30px;
 }
 
-/* Header et navigation */
+/* ─── Navbar ─────────────────────────────────────────── */
 .navbar {
     top: 0;
     background: var(--glass-darker);
@@ -50,7 +49,7 @@ hr {
     position: fixed;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transition: var(--transition);
 }
 
@@ -59,12 +58,11 @@ hr {
     font-size: 28px;
     text-decoration: none;
     font-weight: bold;
-    font-family: 'Raleway', sans-serif;
     transition: var(--transition);
 }
 
 .navbar .logo a:hover {
-    text-shadow: 0 0 10px rgba(185, 128, 183, 0.6);
+    text-shadow: 0 0 10px rgba(185,128,183,0.6);
     transform: scale(1.05);
 }
 
@@ -94,7 +92,7 @@ hr {
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--nav-hover);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     transform: translateY(-2px);
 }
 
@@ -111,11 +109,9 @@ hr {
     transition: var(--transition);
 }
 
-.hamburger:hover {
-    color: var(--nav-hover);
-}
+.hamburger:hover { color: var(--nav-hover); }
 
-/* Card principale */
+/* ─── Card principale ─────────────────────────────────── */
 .card {
     position: relative;
     width: 90%;
@@ -123,86 +119,211 @@ hr {
     background: var(--glass-darker);
     border-radius: 20px;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     box-shadow: var(--shadow);
-    transform-style: preserve-3d;
-    overflow: hidden;
-    transition: var(--transition);
     margin: 100px auto 40px;
     padding-bottom: 40px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(52, 37, 37, 0.6);
-}
-
 .content {
-    position: relative;
     padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
 }
 
 h2 {
     color: var(--accent);
     font-size: 2em;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
     text-align: center;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Projets */
-.lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
+/* ─── Section projet ──────────────────────────────────── */
+.project-section {
     width: 100%;
-    max-width: 600px;
-    height: auto;
-    aspect-ratio: 16/9;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+/* ─── Flip card grande version ────────────────────────── */
+.flip-container {
+    width: 100%;
+    max-width: 620px;
+    height: 355px;
+    perspective: 1100px;
+    margin-bottom: 22px;
     cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
+    border-radius: 16px;
+}
+
+.flip-container:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+/* Recto : image */
+.flip-card-front {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    margin: 20px auto 10px;
     display: block;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
 }
 
-.lesprojets:hover, .lesprojets1:hover, .lesprojets2:hover, .lesprojets3:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+/* Indicateur "survoler" */
+.flip-hint {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    background: rgba(0,0,0,0.55);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.75em;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    backdrop-filter: blur(6px);
+    transition: opacity 0.3s ease;
 }
 
-.premier, .deuxieme, .troisieme, .quatrieme {
+.flip-container:hover .flip-hint {
+    opacity: 0;
+}
+
+/* Verso : infos projet */
+.flip-card-back {
+    background: linear-gradient(140deg, rgba(55,40,75,0.97) 0%, rgba(15,10,35,0.99) 100%);
+    border: 1px solid rgba(185,128,183,0.3);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    text-align: center;
+    box-shadow:
+        inset 0 0 80px rgba(185,128,183,0.08),
+        0 8px 30px rgba(0,0,0,0.5);
+}
+
+/* Badge icône au verso */
+.flip-back-badge {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(185,128,183,0.15);
+    border: 2px solid rgba(185,128,183,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 0 25px rgba(185,128,183,0.3);
+}
+
+.flip-back-badge i {
+    font-size: 1.8em;
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(185,128,183,0.8));
+}
+
+.flip-card-back h3 {
+    color: white;
+    font-size: 1.55em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.flip-card-back p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.93em;
+    line-height: 1.65;
+    margin-bottom: 26px;
+}
+
+.btn-voir {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: linear-gradient(45deg, rgba(67,60,80,0.9), rgba(89,205,255,0.85));
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, letter-spacing 0.3s ease;
+    box-shadow: 0 5px 20px rgba(89,205,255,0.3);
+}
+
+.btn-voir:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 35px rgba(185,128,183,0.55);
+    letter-spacing: 0.5px;
+}
+
+/* ─── Description texte ───────────────────────────────── */
+.desc {
     color: white;
     text-align: center;
-    line-height: 1.6;
-    margin: 0 auto 30px;
+    line-height: 1.7;
     width: 90%;
-    max-width: 700px;
+    max-width: 720px;
+    font-size: 0.95em;
 }
 
+.stack {
+    display: inline-block;
+    margin-top: 6px;
+    color: rgba(185,128,183,0.9);
+    font-size: 0.88em;
+}
+
+/* ─── Lien GitHub ─────────────────────────────────────── */
 .plus {
     color: var(--accent);
     font-size: 3em;
-    margin: 15px 0;
+    margin: 5px 0;
     transition: var(--transition);
 }
 
-.plus:hover {
-    transform: scale(1.1);
-    color: var(--accent-hover);
-}
-
-/* Style pour le lien "Voir plus sur GitHub" */
 .more-projects {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
     color: var(--accent);
+    margin-top: 15px;
     transition: var(--transition);
 }
 
@@ -216,12 +337,16 @@ h2 {
     color: var(--accent);
 }
 
-/* Footer */
+.more-projects:hover .plus {
+    transform: scale(1.1);
+}
+
+/* ─── Footer ──────────────────────────────────────────── */
 footer {
     background: var(--glass-darker);
     padding: 20px 0;
     backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255,255,255,0.05);
     margin-top: auto;
     width: 100%;
 }
@@ -236,7 +361,7 @@ footer {
 }
 
 .copyright {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255,255,255,0.7);
     margin: 0;
     font-size: 14px;
 }
@@ -247,42 +372,32 @@ footer {
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
     font-size: 14px;
+    cursor: pointer;
     transition: var(--transition);
 }
 
-.footer-links a:hover {
-    color: var(--accent);
-}
+.footer-links a:hover { color: var(--accent); }
 
-/* Media queries */
+/* ─── Media queries ───────────────────────────────────── */
 @media (max-width: 768px) {
     .card {
         width: 95%;
         margin: 80px auto 30px;
     }
-    
-    .content {
-        padding: 25px;
+
+    .content { padding: 25px; }
+    h2 { font-size: 1.6em; }
+
+    .flip-container {
+        height: 240px;
     }
 
-    h2 {
-        font-size: 1.6em;
-    }
-
-    .navbar {
-        padding: 12px 15px;
-    }
-
-    .navbar .logo a {
-        font-size: 24px;
-    }
-
-    .hamburger {
-        display: block;
-    }
+    .navbar { padding: 12px 15px; }
+    .navbar .logo a { font-size: 24px; }
+    .hamburger { display: block; }
 
     .nav-links {
         position: fixed;
@@ -290,7 +405,7 @@ footer {
         left: 0;
         flex-direction: column;
         width: 100%;
-        background: rgba(35, 35, 35, 0.95);
+        background: rgba(35,35,35,0.95);
         backdrop-filter: blur(10px);
         padding: 0;
         max-height: 0;
@@ -312,20 +427,14 @@ footer {
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    .nav-links li:last-child {
-        border-bottom: none;
-    }
+    .nav-links li:last-child { border-bottom: none; }
 
     .nav-links a {
         display: flex;
         justify-content: center;
         padding: 10px;
     }
-    
-    .lesprojets, .lesprojets1, .lesprojets2, .lesprojets3 {
-        max-width: 100%;
-    }
-    
+
     .footer-content {
         flex-direction: column;
         text-align: center;
@@ -333,21 +442,9 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .card {
-        margin-top: 80px;
-        width: 95%;
-    }
-    
-    .content {
-        padding: 20px 15px;
-    }
-    
-    h2 {
-        font-size: 1.4em;
-    }
-    
-    .premier, .deuxieme, .troisieme, .quatrieme {
-        font-size: 0.9em;
-    }
-
+    .card { margin-top: 80px; }
+    .content { padding: 20px 15px; }
+    h2 { font-size: 1.4em; }
+    .desc { font-size: 0.88em; }
+    .flip-container { height: 200px; }
 }

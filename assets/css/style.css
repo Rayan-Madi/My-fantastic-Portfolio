@@ -23,15 +23,15 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(background.gif);
+    background: linear-gradient(to top, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 50%), url(../img/background.gif);
     background-position: center;
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: scroll;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     position: relative;
 }
 
-/* Header et navigation */
+/* ─── Navbar ─────────────────────────────────────────── */
 .navbar {
     top: 0;
     background: var(--glass-darker);
@@ -43,7 +43,7 @@ body {
     position: fixed;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transition: var(--transition);
 }
 
@@ -87,7 +87,7 @@ body {
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--nav-hover);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     transform: translateY(-2px);
 }
 
@@ -112,7 +112,7 @@ body {
     color: var(--nav-hover);
 }
 
-/* Main content */
+/* ─── Main ────────────────────────────────────────────── */
 main {
     flex: 1;
     display: flex;
@@ -121,25 +121,41 @@ main {
     justify-content: center;
     padding: 20px;
     margin-top: 60px;
+    overflow-x: hidden;
 }
 
+/* ─── Carte 3D Tilt ───────────────────────────────────── */
 .card {
     position: relative;
     width: 650px;
     background: var(--glass-darker);
     border-radius: 20px;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     box-shadow: var(--shadow);
-    transform-style: preserve-3d;
     overflow: hidden;
-    transition: var(--transition);
     margin: 40px 0;
+    /* Le JS va gérer le transform pour le tilt */
+    will-change: transform;
+    transform-style: preserve-3d;
+    transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.6s ease, box-shadow 0.6s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(52, 37, 37, 0.6);
+/* Effet glare (reflet lumineux) */
+.card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-glare {
+    opacity: 1;
 }
 
 .content {
@@ -155,18 +171,29 @@ main {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 20px;
-    transition: var(--transition);
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     cursor: pointer;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
 }
 
 .avatar:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(185, 128, 183, 0.5);
+    transform: scale(1.1) rotateZ(3deg);
+    box-shadow: 0 0 30px rgba(185,128,183,0.7), 0 0 60px rgba(185,128,183,0.3);
 }
 
+/* ─── Typing effect ───────────────────────────────────── */
+.typing-cursor {
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 300;
+    animation: blink 0.75s step-end infinite;
+    margin-left: 1px;
+}
+
+/* ─── Typo ────────────────────────────────────────────── */
 h2 {
     color: var(--accent);
     font-size: 2em;
@@ -186,13 +213,13 @@ h3 {
 }
 
 p {
-    color: rgb(255, 255, 255);
+    color: rgb(255,255,255);
     text-align: center;
     line-height: 1.6;
     margin-bottom: 25px;
 }
 
-/* Skills */
+/* ─── Skills 3D flottants ─────────────────────────────── */
 .skills {
     display: flex;
     flex-direction: column;
@@ -215,15 +242,22 @@ p {
     align-items: center;
     gap: 8px;
     color: white;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255,255,255,0.08);
     padding: 8px 15px;
     border-radius: 30px;
-    transition: var(--transition);
+    cursor: default;
+    /* Floating 3D */
+    animation: skillFloat var(--float-dur, 3s) ease-in-out infinite var(--float-delay, 0s);
+    transition: background 0.35s ease, box-shadow 0.35s ease, color 0.35s ease, transform 0.5s ease;
+    transform-style: preserve-3d;
 }
 
 .skills li:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-3px);
+    background: rgba(185, 128, 183, 0.22);
+    box-shadow: 0 0 18px rgba(185,128,183,0.55), 0 8px 20px rgba(0,0,0,0.35);
+    color: var(--accent);
+    /* Spin 3D sur Y */
+    animation: skillSpin 0.6s ease forwards;
 }
 
 .skills i {
@@ -231,7 +265,7 @@ p {
     color: var(--accent);
 }
 
-/* Social links */
+/* ─── Social links ────────────────────────────────────── */
 .social-links {
     display: flex;
     justify-content: center;
@@ -245,7 +279,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     border-radius: 50%;
     color: var(--accent);
     font-size: 18px;
@@ -255,11 +289,11 @@ p {
 .social-icon:hover {
     background: var(--accent);
     color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(185, 128, 183, 0.4);
+    transform: translateY(-3px) scale(1.15);
+    box-shadow: 0 5px 20px rgba(185,128,183,0.5);
 }
 
-/* Bouton */
+/* ─── Bouton ──────────────────────────────────────────── */
 button {
     padding: 14px 30px;
     background: linear-gradient(45deg, var(--primary), var(--secondary));
@@ -290,7 +324,7 @@ button a {
 
 button:hover {
     letter-spacing: 1px;
-    box-shadow: 0 5px 15px rgba(70, 255, 138, 0.4);
+    box-shadow: 0 5px 20px rgba(89, 205, 255, 0.45);
     transform: translateY(-3px);
 }
 
@@ -306,7 +340,7 @@ button:hover i {
     transform: translateX(5px);
 }
 
-/* Projects section */
+/* ─── Projects section ────────────────────────────────── */
 .projects-card {
     width: 90%;
     max-width: 980px;
@@ -320,56 +354,94 @@ button:hover i {
     margin: 20px 0;
 }
 
+/* ─── Mini flip cards (grille accueil) ────────────────── */
 .project-item {
-    position: relative;
+    display: block;
+    height: 195px;
+    perspective: 900px;
+    text-decoration: none;
     border-radius: 15px;
-    overflow: hidden;
-    height: 180px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: var(--transition);
 }
 
-.project-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+.project-flip {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.project-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+    border-radius: 15px;
+}
+
+.project-item:hover .project-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.project-flip-front,
+.project-flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.project-flip-front {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
 }
 
 .project-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition);
+    display: block;
 }
 
-.project-item:hover .project-image {
-    transform: scale(1.05);
+.project-flip-back {
+    background: linear-gradient(135deg, rgba(67,60,80,0.97), rgba(20,10,40,0.98));
+    border: 1px solid rgba(185,128,183,0.35);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: inset 0 0 40px rgba(185,128,183,0.1), 0 5px 20px rgba(0,0,0,0.4);
 }
 
-.project-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    padding: 15px;
+.project-flip-back i {
+    font-size: 2em;
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(185,128,183,0.7));
+}
+
+.project-flip-back span {
     color: white;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: var(--transition);
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.project-item:hover .project-overlay {
-    opacity: 1;
-    transform: translateY(0);
+.project-flip-back small {
+    color: rgba(185,128,183,0.85);
+    font-size: 0.78em;
+    font-weight: 400;
 }
 
-/* Footer */
+/* ─── Footer ──────────────────────────────────────────── */
 footer {
     background: var(--glass-darker);
     padding: 20px 0;
     backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255,255,255,0.05);
     margin-top: auto;
 }
 
@@ -383,7 +455,7 @@ footer {
 }
 
 .copyright {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255,255,255,0.7);
     margin: 0;
     font-size: 14px;
 }
@@ -394,47 +466,46 @@ footer {
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
     font-size: 14px;
     transition: var(--transition);
+    cursor: pointer;
 }
 
 .footer-links a:hover {
     color: var(--accent);
 }
 
-/* Animations */
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0) rotateX(0) rotateY(0);
-    }
-    25% {
-        transform: translateY(-12px) rotateX(2deg) rotateY(2deg);
-    }
-    75% {
-        transform: translateY(12px) rotateX(-2deg) rotateY(-2deg);
-    }
+/* ─── Keyframes ───────────────────────────────────────── */
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes skillFloat {
+    0%, 100% { transform: translateY(0) translateZ(0); }
+    50%       { transform: translateY(-7px) translateZ(10px); }
 }
 
-/* Media queries */
+@keyframes skillSpin {
+    0%   { transform: rotateY(0deg) translateZ(0); }
+    100% { transform: rotateY(360deg) translateZ(12px); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Media queries ───────────────────────────────────── */
 @media (max-width: 768px) {
     .card {
-        width: 90%; 
+        width: 90%;
         max-width: 450px;
     }
-    
+
     .content {
         padding: 25px;
     }
@@ -444,9 +515,9 @@ footer {
     }
 
     button {
-        width: 100%; 
+        width: 100%;
         max-width: none;
-        padding: 15px; 
+        padding: 15px;
     }
 
     .navbar {
@@ -467,7 +538,7 @@ footer {
         left: 0;
         flex-direction: column;
         width: 100%;
-        background: rgba(35, 35, 35, 0.95);
+        background: rgba(35,35,35,0.95);
         backdrop-filter: blur(10px);
         padding: 0;
         max-height: 0;
@@ -498,14 +569,19 @@ footer {
         justify-content: center;
         padding: 10px;
     }
-    
+
     .project-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .footer-content {
         flex-direction: column;
         text-align: center;
+    }
+
+    /* Désactive le tilt sur mobile */
+    .card {
+        transform: none !important;
     }
 }
 
@@ -514,32 +590,32 @@ footer {
         max-width: 100%;
         margin-top: 80px;
     }
-    
+
     .content {
         padding: 20px 15px;
     }
-    
+
     h2 {
         font-size: 1.4em;
     }
-    
+
     .social-links {
         gap: 15px;
     }
-    
+
     .social-icon {
         width: 35px;
         height: 35px;
         font-size: 16px;
     }
-    
+
     .skills ul {
         gap: 10px;
     }
-    
+
     .skills li {
         padding: 6px 12px;
         font-size: 14px;
+        animation: none;
     }
-
 }
