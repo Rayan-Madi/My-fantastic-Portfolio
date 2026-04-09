@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil | Madi Rayan</title>
-    <link rel="icon" href="jacket.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/img/jacket.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/css/style.css">
     <meta name="description" content="Portfolio de Madi Rayan, développeur Fullstack">
 </head>
 <body>
@@ -27,72 +27,107 @@
             </div>
         </nav>
     </header>
-    
+
     <main>
-        <div class="card">
+        <!-- Carte profil avec tilt 3D -->
+        <div class="card tilt-card">
+            <div class="card-glare"></div>
             <div class="content">
-                <img src="profile.PNG" class="avatar">
+                <img src="assets/img/profile.PNG" class="avatar" alt="Rayan Madi">
                 <h2><i class="fas fa-code"></i> Rayan Madi</h2>
-                <p>Développeur Fullstack <br> Donnez vie à vos projets !</p>
-                
+                <p><span id="typing-text"></span><span class="typing-cursor">|</span><br> Donnez vie à vos projets !</p>
+
                 <div class="skills">
                     <h3>Mes compétences</h3>
                     <ul>
-                       <li><i class="fa-brands fa-html5"></i> HTML</li>
-                       <li><i class="fa-brands fa-css3-alt"></i> CSS</li>
-                       <li><i class="fa-brands fa-js"></i> JavaScript</li>
-                       <li><i class="fa-brands fa-python"></i> Python</li>
+                        <li><i class="fa-brands fa-html5"></i> HTML</li>
+                        <li><i class="fa-brands fa-css3-alt"></i> CSS</li>
+                        <li><i class="fa-brands fa-js"></i> JavaScript</li>
+                        <li><i class="fa-brands fa-python"></i> Python</li>
                         <li><i class="fa-brands fa-java"></i> Java</li>
-                       <li><i class="fa-brands fa-figma"></i> Figma</li>
+                        <li><i class="fa-brands fa-figma"></i> Figma</li>
                         <li><i class="fa-brands fa-node-js"></i> Node.js</li>
                         <li><i class="fa-brands fa-react"></i> React</li>
                         <li><i class="fa-solid fa-terminal"></i> PowerShell</li>
                         <li><i class="fa-solid fa-database"></i> MySQL</li>
-
                     </ul>
                 </div>
-                
+
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/rayan-madi-/" class="social-icon"><i class="fab fa-linkedin"></i></a>
                     <a href="https://www.instagram.com/rayannn075" class="social-icon"><i class="fab fa-instagram"></i></a>
                     <a href="https://github.com/Rayan-Madi" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
-                
+
                 <button>
-    <a href="contact.html">
-        <span>Me contacter</span>
-        <i class="fas fa-arrow-right"></i>
-    </a>
-</button>
+                    <a href="contact.html">
+                        <span>Me contacter</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </button>
             </div>
         </div>
-        
-        <div class="card projects-card">
+
+        <!-- Carte projets avec tilt 3D -->
+        <div class="card projects-card tilt-card">
+            <div class="card-glare"></div>
             <div class="content">
                 <h2><i class="fas fa-briefcase"></i> Mes Projets</h2>
                 <div class="project-grid">
                     <a href="mesprojets.html" class="project-item">
-                        <img src="femed.PNG" alt="Projet Portfolio" class="project-image">
-                        <div class="project-overlay">
-                            <span>Site En ligne</span>
+                        <div class="project-flip">
+                            <div class="project-flip-inner">
+                                <div class="project-flip-front">
+                                    <img src="assets/img/femed.PNG" alt="FEMED" class="project-image">
+                                </div>
+                                <div class="project-flip-back">
+                                    <i class="fas fa-globe"></i>
+                                    <span>Site En ligne</span>
+                                    <small>PHP · WordPress · JS</small>
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <a href="mesprojets.html" class="project-item">
-                        <img src="site vitrine.PNG" alt="Projet Analyse" class="project-image">
-                        <div class="project-overlay">
-                            <span>Site vitrine</span>
+                        <div class="project-flip">
+                            <div class="project-flip-inner">
+                                <div class="project-flip-front">
+                                    <img src="assets/img/site-vitrine.PNG" alt="Site vitrine" class="project-image">
+                                </div>
+                                <div class="project-flip-back">
+                                    <i class="fas fa-store"></i>
+                                    <span>Site vitrine</span>
+                                    <small>HTML · CSS · JS</small>
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <a href="mesprojets.html" class="project-item">
-                        <img src="todolist.PNG" alt="To-Do-List en React" class="project-image">
-                        <div class="project-overlay">
-                            <span>To-Do-List en React</span>
+                        <div class="project-flip">
+                            <div class="project-flip-inner">
+                                <div class="project-flip-front">
+                                    <img src="assets/img/todolist.PNG" alt="To-Do-List" class="project-image">
+                                </div>
+                                <div class="project-flip-back">
+                                    <i class="fa-brands fa-react"></i>
+                                    <span>To-Do-List</span>
+                                    <small>React · Vite</small>
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <a href="mesprojets.html" class="project-item">
-                        <img src="battle of roles.PNG" alt="Projet En Cours" class="project-image">
-                        <div class="project-overlay">
-                            <span>Jeu de Cartes</span>
+                        <div class="project-flip">
+                            <div class="project-flip-inner">
+                                <div class="project-flip-front">
+                                    <img src="assets/img/battle-of-roles.PNG" alt="Battle of Roles" class="project-image">
+                                </div>
+                                <div class="project-flip-back">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Jeu de Cartes</span>
+                                    <small>Python · Flask · MySQL</small>
+                                </div>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -105,7 +140,7 @@
             </div>
         </div>
     </main>
-    
+
     <footer>
         <div class="footer-content">
             <p class="copyright">&copy; Madi Rayan 2026 - Tous droits réservés</p>
@@ -116,12 +151,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
-
-
-
-
-
-

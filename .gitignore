@@ -1,0 +1,13 @@
+# Claude Code (outils locaux, ne pas push)
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Divers
+*.log

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes projets | Madi Rayan</title>
-    <link rel="icon" href="jacket.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="mesprojets.css">
+    <link rel="icon" href="assets/img/jacket.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/css/mesprojets.css">
     <meta name="description" content="Découvrez les projets réalisés par Madi Rayan, développeur Fullstack">
 </head>
 
@@ -28,56 +28,119 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="card">
         <div class="content">
             <h2><i class="fas fa-briefcase"></i> Mes différents Projets</h2>
-            
-            <a href="https://disparitions-euromed.org/" target="_blank">
-                <img src="femed.PNG" alt="Projet Portfolio" class="lesprojets3">
-            </a>
-            <p class="premier">Développement et maintenance d'un thème WordPress entièrement personnalisé pour une ONG internationale présente dans 13 pays. Le site est multilingue (français, arabe, anglais) et couvre l'ensemble des activités de la fédération : publications, rapports, revues, carte interactive, actualités et dons.
-Travail réalisé directement dans les fichiers PHP du thème, sans page builder. Parmi les fonctionnalités développées : intégration de PDF.js pour la prévisualisation interactive de documents PDF dans le navigateur, création d'un carousel hero animé, système de lightbox PDF, templates de pages dédiées (revues, rapports thématiques, rapports annuels, missions de terrain, histoire…), archive de publications avec cartes entièrement cliquables, et corrections de bugs divers sur un site en production.
-            <br><br><span class="stack"><strong>Stack :</strong> PHP · WordPress · JavaScript · PDF.js · Polylang · MySQL</span></p>
-            
-            <a href="https://github.com/Rayan-Madi/Site-Vitrine-">
-                <img src="site vitrine.PNG" alt="Projet Analyse" class="lesprojets2">
-            </a>
-            <p class="deuxieme">Ce site vitrine a été développé comme un exercice pour simuler la présence en ligne d'une entreprise. Il comprend plusieurs sections classiques (accueil, services, à propos, contact) et vise à montrer ma capacité à concevoir un site professionnel ; bien organisé et responsive.
-            <br><br><span class="stack"><strong>Stack :</strong> HTML · CSS · JavaScript</span></p>
-            
-            <a href="https://github.com/Rayan-Madi/To-Do-List">
-                <img src="todolist.PNG" alt="Projet Web" class="lesprojets1">
-            </a>
-            <p class="troisieme">Application web super simple et intuitive pour organiser des tâches du quotidien. Avec une interface claire et moderne, possibilité rapide d'ajouter des tâches, leur attribuer une priorité, les marquer comme terminées ou en cours, et même les filtrer ou rechercher en un instant. Le tout propulsé par React et Vite, pour une expérience ultra-rapide et fluide.
-            <br><br><span class="stack"><strong>Stack :</strong> React · Vite · JavaScript</span></p>
-            
-            <a href="https://github.com/Rayan-Madi/Battle-Of-Roles">
-                <img src="battle of roles.PNG" alt="Jeu de cartes" class="lesprojets">
-            </a>
-            <p class="quatrieme">Battle of Roles est un jeu web multijoueur développé en Python avec Flask et une base de données MySQL.
-Deux joueurs s’affrontent en tour par tour en jouant des cartes représentant trois rôles — Mage, Chevalier et Loup — chacun battant un autre selon un cycle logique.
-Une carte spéciale, le Bouffon, peut être jouée une seule fois par partie pour inverser les règles et surprendre l’adversaire.
 
-Le projet intègre :
+            <!-- Projet 1 — FEMED -->
+            <div class="project-section">
+                <div class="flip-container">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="assets/img/femed.PNG" alt="FEMED" />
+                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="flip-back-badge"><i class="fas fa-globe"></i></div>
+                            <h3>FEMED</h3>
+                            <p>Site WordPress multilingue pour une ONG internationale présente dans 13 pays.</p>
+                            <a href="https://disparitions-euromed.org/" target="_blank" class="btn-voir">
+                                Voir le site <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="desc">Développement et maintenance d'un thème WordPress entièrement personnalisé pour une ONG internationale présente dans 13 pays. Le site est multilingue (français, arabe, anglais) et couvre l'ensemble des activités de la fédération : publications, rapports, revues, carte interactive, actualités et dons.
+                    Travail réalisé directement dans les fichiers PHP du thème, sans page builder. Parmi les fonctionnalités développées : intégration de PDF.js pour la prévisualisation interactive de documents PDF dans le navigateur, création d'un carousel hero animé, système de lightbox PDF, templates de pages dédiées, archive de publications avec cartes entièrement cliquables, et corrections de bugs divers sur un site en production.
+                    <br><br><span class="stack"><strong>Stack :</strong> PHP · WordPress · JavaScript · PDF.js · Polylang · MySQL</span>
+                </p>
+            </div>
 
-un backend Flask (gestion des routes, logique du jeu, sessions, utilisateurs)
+            <hr>
 
-une base MySQL (stockage des comptes, parties, scores)
+            <!-- Projet 2 — Site vitrine -->
+            <div class="project-section">
+                <div class="flip-container">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="assets/img/site-vitrine.PNG" alt="Site vitrine" />
+                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="flip-back-badge"><i class="fas fa-store"></i></div>
+                            <h3>Site Vitrine</h3>
+                            <p>Simulation de présence en ligne d'une entreprise, responsive et bien structuré.</p>
+                            <a href="https://github.com/Rayan-Madi/Site-Vitrine-" target="_blank" class="btn-voir">
+                                Voir sur GitHub <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="desc">Ce site vitrine a été développé comme un exercice pour simuler la présence en ligne d'une entreprise. Il comprend plusieurs sections classiques (accueil, services, à propos, contact) et vise à montrer ma capacité à concevoir un site professionnel, bien organisé et responsive.
+                    <br><br><span class="stack"><strong>Stack :</strong> HTML · CSS · JavaScript</span>
+                </p>
+            </div>
 
-un frontend HTML/CSS/JS avec animations de cartes et affichage dynamique.
+            <hr>
 
-Les joueurs peuvent s’inscrire, se connecter ou jouer en invité, leurs scores étant enregistrés dans un leaderboard global.
-Le premier à 3 points remporte la partie.
-            <br><br><span class="stack"><strong>Stack :</strong> Python · Flask · MySQL · HTML · CSS · JavaScript</span></p>
-           
-            <a href="https://github.com/Rayan-Madi?tab=repositories" class="more-projects"> 
-                <p class="plus">...</p> 
+            <!-- Projet 3 — To-Do List -->
+            <div class="project-section">
+                <div class="flip-container">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="assets/img/todolist.PNG" alt="To-Do-List" />
+                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="flip-back-badge"><i class="fa-brands fa-react"></i></div>
+                            <h3>To-Do List</h3>
+                            <p>Application React ultra-rapide pour organiser et filtrer ses tâches du quotidien.</p>
+                            <a href="https://github.com/Rayan-Madi/To-Do-List" target="_blank" class="btn-voir">
+                                Voir sur GitHub <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="desc">Application web simple et intuitive pour organiser des tâches du quotidien. Avec une interface claire et moderne, possibilité rapide d'ajouter des tâches, leur attribuer une priorité, les marquer comme terminées ou en cours, et même les filtrer ou rechercher en un instant. Le tout propulsé par React et Vite, pour une expérience ultra-rapide et fluide.
+                    <br><br><span class="stack"><strong>Stack :</strong> React · Vite · JavaScript</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <!-- Projet 4 — Battle of Roles -->
+            <div class="project-section">
+                <div class="flip-container">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="assets/img/battle-of-roles.PNG" alt="Battle of Roles" />
+                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="flip-back-badge"><i class="fas fa-gamepad"></i></div>
+                            <h3>Battle of Roles</h3>
+                            <p>Jeu web multijoueur en tour par tour avec leaderboard et carte spéciale Bouffon.</p>
+                            <a href="https://github.com/Rayan-Madi/Battle-Of-Roles" target="_blank" class="btn-voir">
+                                Voir sur GitHub <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <p class="desc">Battle of Roles est un jeu web multijoueur développé en Python avec Flask et une base de données MySQL. Deux joueurs s'affrontent en tour par tour en jouant des cartes représentant trois rôles — Mage, Chevalier et Loup — chacun battant un autre selon un cycle logique. Une carte spéciale, le Bouffon, peut être jouée une seule fois par partie pour inverser les règles.
+                    <br><br>
+                    Le projet intègre un backend Flask (gestion des routes, logique du jeu, sessions, utilisateurs), une base MySQL (stockage des comptes, parties, scores), un frontend HTML/CSS/JS avec animations de cartes. Les joueurs peuvent s'inscrire, se connecter ou jouer en invité, leurs scores étant enregistrés dans un leaderboard global.
+                    <br><br><span class="stack"><strong>Stack :</strong> Python · Flask · MySQL · HTML · CSS · JavaScript</span>
+                </p>
+            </div>
+
+            <a href="https://github.com/Rayan-Madi?tab=repositories" class="more-projects" target="_blank">
+                <p class="plus">...</p>
                 <span>Voir plus sur GitHub</span>
             </a>
         </div>
     </div>
-    
+
     <footer>
         <div class="footer-content">
             <p class="copyright">&copy; Madi Rayan 2026 - Tous droits réservés</p>
@@ -88,14 +151,6 @@ Le premier à 3 points remporte la partie.
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="assets/js/projets.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
