@@ -1,155 +1,136 @@
-const hamburger = document.getElementById('hamburger-icon');
-const navLinks = document.querySelector('.nav-links');
+const hamburger   = document.getElementById('hamburger-icon');
+const navLinks    = document.querySelector('.nav-links');
 const contactForm = document.getElementById('contact-form');
-const toast = document.getElementById('toast-notification');
+const toast       = document.getElementById('toast-notification');
 
-// Fonction pour basculer le menu
-function toggleMenu(event) {
-    event.stopPropagation(); // Empêche la propagation de l'événement
+// ─── Menu hamburger ───────────────────────────────────────────
+function toggleMenu(e) {
+    e.stopPropagation();
     navLinks.classList.toggle('active');
-    
-    // Change l'icône hamburger en X quand le menu est ouvert
     const icon = hamburger.querySelector('i');
-    if (navLinks.classList.contains('active')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-    } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-    }
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
 }
 
-// Ouvre/ferme le menu au clic sur l'icône
 hamburger.addEventListener('click', toggleMenu);
 
-// Ferme le menu quand on clique sur un lien
-const navItems = document.querySelectorAll('.nav-links a');
-navItems.forEach(item => {
+document.querySelectorAll('.nav-links a').forEach(item => {
     item.addEventListener('click', () => {
         navLinks.classList.remove('active');
-        
-        // Remet l'icône hamburger
         const icon = hamburger.querySelector('i');
         icon.classList.remove('fa-times');
         icon.classList.add('fa-bars');
     });
 });
 
-// Ferme le menu quand on clique en dehors
-document.addEventListener('click', (event) => {
-    if (navLinks.classList.contains('active') && !event.target.closest('.navbar')) {
+document.addEventListener('click', (e) => {
+    if (navLinks.classList.contains('active') && !e.target.closest('.navbar')) {
         navLinks.classList.remove('active');
-        
-        // Remet l'icône hamburger
         const icon = hamburger.querySelector('i');
         icon.classList.remove('fa-times');
         icon.classList.add('fa-bars');
     }
 });
 
-// Empêche la fermeture du menu lorsqu'on clique à l'intérieur
-navLinks.addEventListener('click', (event) => {
-    event.stopPropagation();
+navLinks.addEventListener('click', e => e.stopPropagation());
+
+// ─── Tilt 3D sur la carte contact ────────────────────────────
+const isMobile = () => window.innerWidth <= 768;
+
+document.querySelectorAll('.tilt-card').forEach(card => {
+    const glare = card.querySelector('.card-glare');
+
+    card.addEventListener('mousemove', (e) => {
+        if (isMobile()) return;
+        const rect = card.getBoundingClientRect();
+        const x    = e.clientX - rect.left;
+        const y    = e.clientY - rect.top;
+        const cx   = rect.width  / 2;
+        const cy   = rect.height / 2;
+        const rotX = ((y - cy) / cy) * -12;
+        const rotY = ((x - cx) / cx) *  12;
+
+        card.style.transition = 'transform 0.08s linear, box-shadow 0.08s linear';
+        card.style.transform  = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+        card.style.boxShadow  = `${-rotY * 2.5}px ${rotX * 2.5}px 50px rgba(185,128,183,0.28)`;
+
+        if (glare) {
+            const px = (x / rect.width)  * 100;
+            const py = (y / rect.height) * 100;
+            glare.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.14) 0%, transparent 65%)`;
+            glare.style.opacity = '1';
+        }
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.55s ease, box-shadow 0.55s ease';
+        card.style.transform  = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+        card.style.boxShadow  = '';
+        if (glare) glare.style.opacity = '0';
+    });
 });
 
-// Fonction pour afficher la notification toast
+// ─── Fade-in des form-groups ──────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.form-group').forEach((group, i) => {
+        setTimeout(() => group.classList.add('animated'), 120 * i);
+    });
+});
+
+// ─── Toast ────────────────────────────────────────────────────
 function showToast() {
     toast.classList.add('show');
-    
-    // Cache automatiquement le toast après 5 secondes
-    setTimeout(() => {
-        hideToast();
-    }, 5000);
+    setTimeout(hideToast, 5000);
 }
 
-// Fonction pour cacher la notification toast
 function hideToast() {
     toast.classList.remove('show');
 }
 
-// Fonction pour fermer le toast manuellement
 function closeToast() {
     hideToast();
 }
 
-// Fonction pour réinitialiser le formulaire
 function resetForm() {
     contactForm.reset();
-    
-    // Remet le bouton dans son état normal
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.classList.remove('sending');
     const icon = submitBtn.querySelector('i');
     const span = submitBtn.querySelector('span');
-    
     icon.classList.remove('fa-spinner', 'fa-spin');
     icon.classList.add('fa-arrow-right');
     span.textContent = 'Envoyer';
 }
 
-// Animation lors de la soumission du formulaire
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault(); // Empêche la soumission normale du formulaire
-    
+// ─── Soumission formulaire ────────────────────────────────────
+contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
     const submitBtn = document.querySelector('.submit-btn');
-    const icon = submitBtn.querySelector('i');
-    const span = submitBtn.querySelector('span');
-    
-    // Change l'apparence du bouton pour indiquer l'envoi
+    const icon      = submitBtn.querySelector('i');
+    const span      = submitBtn.querySelector('span');
+
     submitBtn.classList.add('sending');
     icon.classList.remove('fa-arrow-right');
     icon.classList.add('fa-spinner', 'fa-spin');
     span.textContent = 'Envoi en cours...';
-    
-    // Simule l'envoi du formulaire (remplace par votre logique d'envoi réelle)
-    const formData = new FormData(contactForm);
-    
-    // Envoi via fetch vers Formspree
+
     fetch(contactForm.action, {
         method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
     })
     .then(response => {
         if (response.ok) {
-            // Succès : affiche la notification et réinitialise le formulaire
-            setTimeout(() => {
-                resetForm();
-                showToast();
-            }, 1000); // Délai pour que l'utilisateur voie l'animation d'envoi
+            setTimeout(() => { resetForm(); showToast(); }, 1000);
         } else {
-            throw new Error('Erreur lors de l\'envoi');
+            throw new Error('Erreur envoi');
         }
     })
-    .catch(error => {
-        console.error('Erreur:', error);
-        // En cas d'erreur, remet le bouton normal et affiche un message d'erreur
+    .catch(() => {
         setTimeout(() => {
             resetForm();
-            // Vous pouvez ajouter ici une notification d'erreur si nécessaire
-            alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+            alert('Une erreur est survenue. Veuillez réessayer.');
         }, 1000);
     });
-});
-
-// Animation au scroll pour les éléments du formulaire
-document.addEventListener('DOMContentLoaded', function() {
-    const formGroups = document.querySelectorAll('.form-group');
-    
-    // Ajoute une classe avec un délai pour créer une animation d'entrée
-    formGroups.forEach((group, index) => {
-        setTimeout(() => {
-            group.classList.add('animated');
-        }, 100 * index);
-    });
-});
-
-// Ferme le toast si on clique en dehors
-document.addEventListener('click', function(event) {
-    if (toast.classList.contains('show') && !toast.contains(event.target)) {
-        // On peut choisir de ne pas fermer automatiquement au clic extérieur
-        // hideToast();
-    }
 });
