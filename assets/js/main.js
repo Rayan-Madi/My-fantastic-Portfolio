@@ -55,9 +55,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typingEl) {
         const phrases = [
             'Développeur Fullstack',
-            'Développeur Web',
-            'Créateur d\'interfaces',
-            'Problem Solver',
+            'React & Node.js',
+            'Python & MySQL',
+            'Du front au back',
         ];
         let phraseIdx  = 0;
         let charIdx    = 0;

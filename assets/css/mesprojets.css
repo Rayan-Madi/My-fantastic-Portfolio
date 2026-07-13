@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Dancing+Script:wght@400..700&display=swap');
 
 :root {
     --primary: rgba(67, 60, 80, 0.9);
-    --secondary: rgba(89, 205, 255, 0.9);
+    --secondary: rgba(185, 128, 183, 0.9);
     --accent: rgb(185, 128, 183);
     --accent-hover: rgb(205, 148, 203);
-    --nav-link: rgb(22, 123, 174);
-    --nav-hover: #8d28a9;
+    --nav-link: rgb(185, 168, 230);
+    --nav-hover: rgb(205, 148, 203);
     --glass: rgba(255, 255, 255, 0.05);
     --glass-darker: rgba(35, 35, 35, 0.3);
     --shadow: 0 15px 35px rgba(52, 37, 37, 0.5);
@@ -277,14 +277,14 @@ h2 {
     align-items: center;
     gap: 8px;
     padding: clamp(7px, 1.8cqw, 12px) clamp(14px, 4.5cqw, 28px);
-    background: linear-gradient(45deg, rgba(67,60,80,0.9), rgba(89,205,255,0.85));
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
     color: white;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     font-size: clamp(0.8em, 2.5cqw, 0.95em);
     transition: transform 0.3s ease, box-shadow 0.3s ease, letter-spacing 0.3s ease;
-    box-shadow: 0 5px 20px rgba(89,205,255,0.3);
+    box-shadow: 0 5px 20px rgba(185,128,183,0.35);
 }
 
 .btn-voir:hover {

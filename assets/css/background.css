@@ -58,3 +58,9 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
     body::after { animation: none; }
 }
+
+/* ─── Typo titres : Space Grotesk (importée par le CSS de chaque page) ─── */
+h1, h2, h3,
+.navbar .logo a {
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+}
