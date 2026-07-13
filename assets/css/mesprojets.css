@@ -23,10 +23,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 50%), url(../img/background.gif);
-    background-position: center;
-    background-size: cover;
-    background-attachment: scroll;
+    background: #0d0b1e; /* fond réel dans background.css (nuit étoilée) */
     font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
@@ -156,7 +153,8 @@ h2 {
 .flip-container {
     width: 100%;
     max-width: 620px;
-    height: 355px;
+    aspect-ratio: 2 / 1; /* suit le ratio des captures (~1920x921), plus de rognage */
+    container-type: inline-size; /* permet au verso de se dimensionner selon la carte (cqw) */
     perspective: 1100px;
     margin-bottom: 22px;
     cursor: pointer;
@@ -229,7 +227,7 @@ h2 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 35px;
+    padding: clamp(10px, 4cqw, 35px);
     text-align: center;
     box-shadow:
         inset 0 0 80px rgba(185,128,183,0.08),
@@ -238,50 +236,50 @@ h2 {
 
 /* Badge icône au verso */
 .flip-back-badge {
-    width: 68px;
-    height: 68px;
+    width: clamp(36px, 11cqw, 68px);
+    height: clamp(36px, 11cqw, 68px);
     border-radius: 50%;
     background: rgba(185,128,183,0.15);
     border: 2px solid rgba(185,128,183,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
+    margin-bottom: clamp(6px, 3cqw, 18px);
     box-shadow: 0 0 25px rgba(185,128,183,0.3);
 }
 
 .flip-back-badge i {
-    font-size: 1.8em;
+    font-size: clamp(1em, 4.5cqw, 1.8em);
     color: var(--accent);
     filter: drop-shadow(0 0 8px rgba(185,128,183,0.8));
 }
 
 .flip-card-back h3 {
     color: white;
-    font-size: 1.55em;
+    font-size: clamp(1em, 4cqw, 1.55em);
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: clamp(4px, 2cqw, 12px);
     letter-spacing: 0.5px;
 }
 
 .flip-card-back p {
     color: rgba(255,255,255,0.8);
-    font-size: 0.93em;
-    line-height: 1.65;
-    margin-bottom: 26px;
+    font-size: clamp(0.75em, 2.8cqw, 0.93em);
+    line-height: 1.5;
+    margin-bottom: clamp(8px, 3.5cqw, 26px);
 }
 
 .btn-voir {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 28px;
+    padding: clamp(7px, 1.8cqw, 12px) clamp(14px, 4.5cqw, 28px);
     background: linear-gradient(45deg, rgba(67,60,80,0.9), rgba(89,205,255,0.85));
     color: white;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95em;
+    font-size: clamp(0.8em, 2.5cqw, 0.95em);
     transition: transform 0.3s ease, box-shadow 0.3s ease, letter-spacing 0.3s ease;
     box-shadow: 0 5px 20px rgba(89,205,255,0.3);
 }
@@ -391,10 +389,6 @@ footer {
     .content { padding: 25px; }
     h2 { font-size: 1.6em; }
 
-    .flip-container {
-        height: 240px;
-    }
-
     .navbar { padding: 12px 15px; }
     .navbar .logo a { font-size: 24px; }
     .hamburger { display: block; }
@@ -446,5 +440,4 @@ footer {
     .content { padding: 20px 15px; }
     h2 { font-size: 1.4em; }
     .desc { font-size: 0.88em; }
-    .flip-container { height: 200px; }
 }

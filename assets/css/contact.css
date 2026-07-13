@@ -25,10 +25,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.3)50%, rgba(0, 0, 0, 0.3)50%), url(../img/background.gif);
-    background-position: center;
-    background-size: cover;
-    background-attachment: scroll;
+    background: #0d0b1e; /* fond réel dans background.css (nuit étoilée) */
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     position: relative;
 }

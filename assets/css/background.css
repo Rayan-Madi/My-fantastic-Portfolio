@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════════════════
+   Fond nuit étoilée — remplace le GIF pixel-art (2.8 Mo → ~2 Ko)
+   Chargé après le CSS de la page : écrase le background du body.
+   ═══════════════════════════════════════════════════════ */
+
+body {
+    background: linear-gradient(165deg, #0a0918 0%, #131030 40%, #1c1340 70%, #221345 100%);
+    background-attachment: fixed;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Couche 1 : halo violet central + étoiles fixes (2 densités) */
+body::before {
+    background-image:
+        radial-gradient(ellipse at 50% 30%, rgba(150, 90, 205, 0.14) 0%, transparent 55%),
+        radial-gradient(1px 1px at 22px 34px, rgba(255,255,255,0.9) 50%, transparent 100%),
+        radial-gradient(1px 1px at 118px 92px, rgba(255,255,255,0.55) 50%, transparent 100%),
+        radial-gradient(1.4px 1.4px at 195px 41px, rgba(255,255,255,0.8) 50%, transparent 100%),
+        radial-gradient(1px 1px at 71px 158px, rgba(255,255,255,0.45) 50%, transparent 100%),
+        radial-gradient(1px 1px at 244px 129px, rgba(255,255,255,0.65) 50%, transparent 100%),
+        radial-gradient(1.4px 1.4px at 41px 219px, rgba(210,190,255,0.7) 50%, transparent 100%),
+        radial-gradient(1px 1px at 163px 201px, rgba(255,255,255,0.5) 50%, transparent 100%),
+        radial-gradient(1px 1px at 287px 247px, rgba(255,255,255,0.6) 50%, transparent 100%);
+    background-size:
+        100% 100%,
+        310px 310px, 310px 310px, 310px 310px, 310px 310px,
+        310px 310px, 310px 310px, 310px 310px, 310px 310px;
+}
+
+/* Couche 2 : étoiles brillantes qui scintillent doucement */
+body::after {
+    background-image:
+        radial-gradient(1.6px 1.6px at 88px 63px, rgba(255,255,255,0.95) 50%, transparent 100%),
+        radial-gradient(1.3px 1.3px at 301px 177px, rgba(215,185,255,0.85) 50%, transparent 100%),
+        radial-gradient(1.6px 1.6px at 178px 289px, rgba(255,255,255,0.9) 50%, transparent 100%),
+        radial-gradient(1.3px 1.3px at 397px 84px, rgba(185,200,255,0.8) 50%, transparent 100%);
+    background-size: 460px 460px;
+    animation: twinkle 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0%   { opacity: 0.35; }
+    100% { opacity: 1; }
+}
+
+/* Confort : pas d'animation pour ceux qui la désactivent */
+@media (prefers-reduced-motion: reduce) {
+    body::after { animation: none; }
+}

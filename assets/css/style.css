@@ -23,10 +23,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to top, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 50%), url(../img/background.gif);
-    background-position: center;
-    background-size: cover;
-    background-attachment: scroll;
+    background: #0d0b1e; /* fond réel dans background.css (nuit étoilée) */
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     position: relative;
 }
@@ -357,7 +354,7 @@ button:hover i {
 /* ─── Mini flip cards (grille accueil) ────────────────── */
 .project-item {
     display: block;
-    height: 195px;
+    aspect-ratio: 2 / 1; /* suit le ratio des captures (~1920x921), plus de rognage */
     perspective: 900px;
     text-decoration: none;
     border-radius: 15px;
@@ -618,4 +615,43 @@ footer {
         font-size: 14px;
         animation: none;
     }
+}
+
+/* ─── Étoiles filantes (accueil) ──────────────────────── */
+html::before,
+html::after {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    pointer-events: none;
+    width: 110px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(200,180,255,0.4) 40%, transparent);
+    opacity: 0;
+    transform: rotate(35deg);
+}
+
+html::before {
+    top: 8%;
+    left: 72%;
+    animation: etoile-filante 11s linear infinite 3s;
+}
+
+html::after {
+    top: 22%;
+    left: 38%;
+    animation: etoile-filante 17s linear infinite 9s;
+}
+
+@keyframes etoile-filante {
+    0%   { transform: translate(0, 0) rotate(35deg); opacity: 0; }
+    0.5% { opacity: 0.9; }
+    5%   { transform: translate(-420px, 294px) rotate(35deg); opacity: 0; }
+    100% { transform: translate(-420px, 294px) rotate(35deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html::before,
+    html::after { animation: none; }
 }
