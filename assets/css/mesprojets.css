@@ -42,6 +42,7 @@ hr {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     position: fixed;
     width: 100%;
@@ -115,6 +116,7 @@ hr {
     max-width: 950px;
     background: var(--glass-darker);
     border-radius: 20px;
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow: var(--shadow);
@@ -210,6 +212,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: 5px;
+    -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     transition: opacity 0.3s ease;
 }
@@ -343,6 +346,7 @@ h2 {
 footer {
     background: var(--glass-darker);
     padding: 20px 0;
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     border-top: 1px solid rgba(255,255,255,0.05);
     margin-top: auto;
@@ -400,6 +404,7 @@ footer {
         flex-direction: column;
         width: 100%;
         background: rgba(35,35,35,0.95);
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         padding: 0;
         max-height: 0;
