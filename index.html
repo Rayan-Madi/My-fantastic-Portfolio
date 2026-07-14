@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil | Madi Rayan</title>
-    <link rel="icon" href="assets/img/jacket.jpg" type="image/x-icon">
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/background.css">
     <meta name="description" content="Portfolio de Madi Rayan, développeur Fullstack">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rayan Madi — Développeur Fullstack">
+    <meta property="og:description" content="Applications web complètes, du front au back. Ça marche... et pas que sur ma machine.">
+    <meta property="og:url" content="https://madirayanportfolio.netlify.app/">
+    <meta property="og:image" content="https://madirayanportfolio.netlify.app/assets/img/og-banner.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <header>
@@ -34,7 +42,7 @@
         <div class="card tilt-card">
             <div class="card-glare"></div>
             <div class="content">
-                <img src="assets/img/profile.PNG" class="avatar" alt="Rayan Madi">
+                <img src="assets/img/profile.webp" class="avatar" alt="Rayan Madi">
                 <h2><i class="fas fa-code"></i> Rayan Madi</h2>
                 <p><span id="typing-text"></span><span class="typing-cursor">|</span><br> Ça marche... et pas que sur ma machine.</p>
 
@@ -68,6 +76,11 @@
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </button>
+
+                <a href="assets/cv/CV-Rayan-Madi.pdf" class="btn-cv" download>
+                    <i class="fas fa-file-arrow-down"></i>
+                    Télécharger mon CV
+                </a>
             </div>
         </div>
 
@@ -81,7 +94,7 @@
                         <div class="project-flip">
                             <div class="project-flip-inner">
                                 <div class="project-flip-front">
-                                    <img src="assets/img/femed.PNG" alt="FEMED" class="project-image">
+                                    <img src="assets/img/femed.webp" alt="FEMED" class="project-image" loading="lazy">
                                 </div>
                                 <div class="project-flip-back">
                                     <i class="fas fa-globe"></i>
@@ -95,7 +108,7 @@
                         <div class="project-flip">
                             <div class="project-flip-inner">
                                 <div class="project-flip-front">
-                                    <img src="assets/img/site-vitrine.PNG" alt="Site vitrine" class="project-image">
+                                    <img src="assets/img/site-vitrine.webp" alt="Site vitrine" class="project-image" loading="lazy">
                                 </div>
                                 <div class="project-flip-back">
                                     <i class="fas fa-store"></i>
@@ -109,7 +122,7 @@
                         <div class="project-flip">
                             <div class="project-flip-inner">
                                 <div class="project-flip-front">
-                                    <img src="assets/img/sniper.jpg" alt="Sniper — jeu de tir 3D en Three.js" class="project-image">
+                                    <img src="assets/img/sniper.jpg" alt="Sniper — jeu de tir 3D en Three.js" class="project-image" loading="lazy">
                                 </div>
                                 <div class="project-flip-back">
                                     <i class="fas fa-crosshairs"></i>
@@ -123,7 +136,7 @@
                         <div class="project-flip">
                             <div class="project-flip-inner">
                                 <div class="project-flip-front">
-                                    <img src="assets/img/battle-of-roles.PNG" alt="Battle of Roles" class="project-image">
+                                    <img src="assets/img/battle-of-roles.webp" alt="Battle of Roles" class="project-image" loading="lazy">
                                 </div>
                                 <div class="project-flip-back">
                                     <i class="fas fa-gamepad"></i>
@@ -140,6 +153,42 @@
                         <i class="fas fa-external-link-alt"></i>
                     </a>
                 </button>
+            </div>
+        </div>
+
+        <!-- Carte parcours -->
+        <div class="card parcours-card tilt-card">
+            <div class="card-glare"></div>
+            <div class="content">
+                <h2><i class="fas fa-graduation-cap"></i> Mon Parcours</h2>
+                <p class="alternance-pill"><i class="fas fa-bullseye"></i> En recherche d'alternance 2026-2027 — 3 semaines entreprise / 1 semaine école</p>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">2026 — 2027</span>
+                        <h3>Bachelor Développeur Full-Stack <span class="timeline-tag">3ᵉ année</span></h3>
+                        <p>École IMIE Paris — conception et intégration d'API, architecture des systèmes, sécurisation des services, déploiement d'infrastructures.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">Mars — Mai 2026</span>
+                        <h3>Développeur web — FEMED <span class="timeline-tag">Stage</span></h3>
+                        <p>Refonte complète du site WordPress/PHP d'une ONG internationale présente dans 13 pays, sécurisation (anti-spam, injections SQL, XSS).</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2024 — 2026</span>
+                        <h3>Concepteur Développeur Web &amp; Mobile <span class="timeline-tag">Diplômé</span></h3>
+                        <p>École IMIE Paris — développement d'applications web et mobiles, front-end &amp; back-end, gestion de projet.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">Juin — Août 2025</span>
+                        <h3>Technicien IT &amp; web — LDLC <span class="timeline-tag">Stage</span></h3>
+                        <p>Diagnostic et réparation matériel/logiciel, maintenance d'un site web, assistance aux utilisateurs.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-date">2024</span>
+                        <h3>Baccalauréat général <span class="timeline-tag">Diplôme</span></h3>
+                        <p>Lycée Jean-Baptiste Say, Paris.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
