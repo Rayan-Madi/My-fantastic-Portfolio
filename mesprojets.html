@@ -96,6 +96,9 @@
             <!-- Projet 3 — Sniper (jeu 3D Three.js) -->
             <div class="project-section">
                 <div class="flip-container">
+                    <button type="button" class="play-demo" data-video="assets/video/sniper.mp4" data-poster="assets/img/sniper-poster.webp" data-title="Sniper — gameplay" aria-label="Voir la démo vidéo de Sniper">
+                        <i class="fas fa-play"></i> Démo
+                    </button>
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <img src="assets/img/sniper.jpg" alt="Sniper — jeu de tir 3D en Three.js" loading="lazy" />
@@ -160,6 +163,19 @@
         </div>
     </footer>
 
+    <!-- Lightbox vidéo démo -->
+    <div class="video-lightbox" id="video-lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="video-lightbox-backdrop" data-close></div>
+        <div class="video-lightbox-inner">
+            <button type="button" class="video-lightbox-close" data-close aria-label="Fermer la vidéo">
+                <i class="fas fa-times"></i>
+            </button>
+            <p class="video-lightbox-title" id="video-lightbox-title"></p>
+            <video id="video-lightbox-player" controls playsinline preload="none"></video>
+        </div>
+    </div>
+
     <script src="assets/js/projets.js"></script>
+    <script src="assets/js/video-lightbox.js"></script>
 </body>
 </html>

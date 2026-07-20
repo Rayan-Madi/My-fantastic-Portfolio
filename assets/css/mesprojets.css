@@ -153,6 +153,7 @@ h2 {
 
 /* ─── Flip card grande version ────────────────────────── */
 .flip-container {
+    position: relative; /* ancre le bouton .play-demo hors du flip */
     width: 100%;
     max-width: 620px;
     aspect-ratio: 2 / 1; /* suit le ratio des captures (~1920x921), plus de rognage */
@@ -445,4 +446,114 @@ footer {
     .content { padding: 20px 15px; }
     h2 { font-size: 1.4em; }
     .desc { font-size: 0.88em; }
+}
+
+/* ─── Bouton Démo vidéo (sur la carte projet) ─────────── */
+.play-demo {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    z-index: 10; /* au-dessus du flip, jamais masqué par la rotation */
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(185,128,183,0.92);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.play-demo:hover {
+    background: rgb(205,148,203);
+    transform: scale(1.06);
+    box-shadow: 0 6px 20px rgba(185,128,183,0.6);
+}
+
+.play-demo i { font-size: 0.9em; }
+
+/* ─── Lightbox vidéo ──────────────────────────────────── */
+.video-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.video-lightbox.open { display: flex; }
+
+.video-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6,4,16,0.86);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.video-lightbox-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: lightbox-in 0.3s ease;
+}
+
+@keyframes lightbox-in {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.video-lightbox-title {
+    color: rgba(255,255,255,0.9);
+    font-weight: 600;
+    font-size: 0.95em;
+    margin: 0;
+    text-align: center;
+}
+
+.video-lightbox video {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(185,128,183,0.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    background: #000;
+    display: block;
+}
+
+.video-lightbox-close {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.video-lightbox-close:hover {
+    background: rgba(185,128,183,0.8);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 600px) {
+    .video-lightbox-close { top: -44px; }
+    .play-demo { font-size: 0.72em; padding: 6px 12px; }
 }
