@@ -75,7 +75,7 @@
     transition: box-shadow .3s var(--ease), transform .25s var(--ease);
 }
 .play-demo:hover, .play-demo:focus-visible {
-    box-shadow: 0 0 0 3px rgba(255, 122, 41, .16);
+    box-shadow: 0 0 0 3px rgba(244, 63, 110, .16);
     transform: translateY(-1px);
     outline: none;
 }

@@ -187,7 +187,7 @@ section { padding: 54px 0; }
 }
 .badge .icon { font-size: 9px; }
 .badge.live { color: var(--green); border-color: var(--green); }
-.project-card:hover .badge { box-shadow: 0 0 0 3px rgba(255, 122, 41, .14); }
+.project-card:hover .badge { box-shadow: 0 0 0 3px rgba(244, 63, 110, .14); }
 .project-card:hover .badge.live { box-shadow: 0 0 0 3px rgba(125, 219, 146, .14); }
 
 .project-title { position: absolute; z-index: 2; left: 13px; right: 13px; bottom: 10px; }
@@ -207,8 +207,8 @@ section { padding: 54px 0; }
     font: 600 10.5px/1 var(--mono);
     letter-spacing: .08em;
     color: var(--accent);
-    border: 1px solid rgba(255, 122, 41, .4);
-    background: rgba(255, 122, 41, .07);
+    border: 1px solid rgba(244, 63, 110, .4);
+    background: rgba(244, 63, 110, .07);
     border-radius: 999px;
     padding: 8px 14px;
     margin: 0 0 24px;
@@ -227,7 +227,7 @@ section { padding: 54px 0; }
     border: 1px solid var(--accent);
     transition: box-shadow .3s var(--ease);
 }
-.timeline-item:hover::before { box-shadow: 0 0 0 4px rgba(255, 122, 41, .14); }
+.timeline-item:hover::before { box-shadow: 0 0 0 4px rgba(244, 63, 110, .14); }
 
 .timeline-date { font: 600 9.5px/1 var(--mono); letter-spacing: .1em; color: var(--accent); }
 .timeline-item h3 { margin: 8px 0 4px; font-size: 15.5px; }
