@@ -117,7 +117,9 @@ export function initScene(o) {
 
     const sphereGeo = new THREE.SphereGeometry(1, 16, 12);
 
-    const objs = nodes.filter(d => !d.hidden).map(d => {
+    const objs = nodes.map((d, uniformIndex) => ({ d, uniformIndex }))
+        .filter(o => !o.d.hidden)
+        .map(({ d, uniformIndex }) => {
         const base = new THREE.Color(d.color);
         const lit = base.clone().lerp(WHITE, .55);
         const R = 1.6 + d.m * .075;
@@ -145,7 +147,11 @@ export function initScene(o) {
         stem.computeLineDistances();
         scene.add(stem);
 
-        const item = { d, mesh, glow, base, lit, R, hot: false, link: null };
+        const item = {
+            d, uniformIndex, mesh, glow, stem, base, lit, R,
+            phase: Math.random() * 6.283,   // chaque nœud respire à son rythme
+            hot: false, link: null
+        };
 
         // Étiquette : un vrai lien HTML positionné par projection.
         // Accessible au clavier et aux lecteurs d'écran, contrairement
@@ -212,11 +218,13 @@ export function initScene(o) {
             dive += (p - dive) * .08;
         }
 
-        if (!reduceMotion) t += .0016;
+        if (!reduceMotion) t += .0034;
         // Oscillation bornée plutôt qu'un tour complet : la composition
         // reste maîtrisée (les étiquettes ne passent pas sur le texte).
         // Le glissement de l'utilisateur, lui, n'est pas limité.
-        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.07) + drag;
+        // 0,17 rad ≈ 10° sur un cycle d'environ 30 s : perceptible sans
+        // être agité, et les nœuds restent dans le cadre.
+        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.17) + drag;
         camera.position.set(Math.sin(angle) * radius, camY + dive * 130, Math.cos(angle) * radius);
         camera.lookAt(0, 14 - dive * 40, 0);
 
@@ -224,6 +232,18 @@ export function initScene(o) {
         const v = new THREE.Vector3();
 
         objs.forEach(it => {
+            // Respiration verticale. Le creux dans la grille suit la
+            // hauteur du nœud : c'est ce mouvement-là qui se voit, bien
+            // plus que l'oscillation de caméra.
+            if (!reduceMotion) {
+                const bob = Math.sin(t * 3.1 + it.phase);
+                const y = it.d.h + bob * 7;
+                it.mesh.position.y = y;
+                it.glow.position.y = y;
+                const u = uniforms.uNodes.value[it.uniformIndex];
+                if (u) u.z = it.d.m * 0.85 * (1 + bob * 0.16);
+            }
+
             it.mesh.material.color.lerp(it.hot ? it.lit : it.base, .16);
             it.glow.material.color.lerp(it.hot ? it.lit : it.base, .16);
             it.glow.material.opacity += ((it.hot ? .58 : .3) - it.glow.material.opacity) * .16;
