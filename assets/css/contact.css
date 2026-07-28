@@ -125,4 +125,9 @@
     }
     .contact-inner { grid-template-columns: 1fr; gap: 18px; padding: 24px 0 40px; }
     .contact-form-card { padding: 22px 20px 24px; }
+
+    /* 16px minimum : en dessous, Safari iOS zoome tout seul à la mise
+       au point d'un champ et laisse l'utilisateur recadrer à la main */
+    .form-group input,
+    .form-group textarea { font-size: 16px; }
 }
