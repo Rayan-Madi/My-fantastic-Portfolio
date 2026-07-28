@@ -3,182 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes projets | Madi Rayan</title>
+    <title>Projets | Rayan Madi</title>
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="assets/css/mesprojets.css">
-    <link rel="stylesheet" href="assets/css/background.css">
-    <meta name="description" content="Découvrez les projets réalisés par Madi Rayan, développeur Fullstack">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/projets.css">
+    <meta name="description" content="Les projets de Rayan Madi : un jeu de tir 3D en Three.js avec mode multijoueur, le site d'une ONG présente dans 13 pays, un jeu de cartes en ligne en Flask et MySQL.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Rayan Madi — Développeur Fullstack">
-    <meta property="og:description" content="Applications web complètes, du front au back. Ça marche... et pas que sur ma machine.">
+    <meta property="og:title" content="Projets — Rayan Madi">
+    <meta property="og:description" content="Jeu 3D Three.js, site d'ONG en production, jeu de cartes multijoueur.">
     <meta property="og:url" content="https://madirayanportfolio.netlify.app/mesprojets.html">
     <meta property="og:image" content="https://madirayanportfolio.netlify.app/assets/img/og-banner.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body>
     <header>
         <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Mes Projets</a>
-            </div>
+            <a href="index.html" class="logo">RM</a>
             <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="mesprojets.html" class="active"><i class="fas fa-briefcase"></i> Mes Projets</a></li>
-                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="index.html">ACCUEIL</a></li>
+                <li><a href="mesprojets.html" class="active">PROJETS</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
             </ul>
-            <div class="hamburger" id="hamburger-icon">
-                <i class="fas fa-bars"></i>
-            </div>
+            <button class="hamburger" id="hamburger-icon" aria-label="Ouvrir le menu" aria-expanded="false">
+                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-menu"></use></svg>
+            </button>
         </nav>
     </header>
 
-    <div class="card">
-        <div class="content">
-            <h2><i class="fas fa-briefcase"></i> Mes différents Projets</h2>
-
-            <!-- Projet 1 — FEMED -->
-            <div class="project-section">
-                <div class="flip-container">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="assets/img/femed.webp" alt="FEMED" loading="lazy" />
-                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="flip-back-badge"><i class="fas fa-globe"></i></div>
-                            <h3>FEMED</h3>
-                            <p>Site WordPress multilingue pour une ONG internationale présente dans 13 pays.</p>
-                            <a href="https://disparitions-euromed.org/" target="_blank" class="btn-voir">
-                                Voir le site <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
+    <main>
+        <div class="page-head" id="page-head">
+            <canvas id="scene" aria-hidden="true"></canvas>
+            <div class="wrap">
+                <div class="page-head-inner">
+                    <h1 class="reveal">Projets</h1>
+                    <p class="count reveal">4 PROJETS · 2 DÉMOS VIDÉO · 1 EN PRODUCTION</p>
                 </div>
-                <p class="desc">Développement et maintenance d'un thème WordPress entièrement personnalisé pour une ONG internationale présente dans 13 pays. Le site est multilingue (français, arabe, anglais) et couvre l'ensemble des activités de la fédération : publications, rapports, revues, carte interactive, actualités et dons.
-                    Travail réalisé directement dans les fichiers PHP du thème, sans page builder. Parmi les fonctionnalités développées : intégration de PDF.js pour la prévisualisation interactive de documents PDF dans le navigateur, création d'un carousel hero animé, système de lightbox PDF, templates de pages dédiées, archive de publications avec cartes entièrement cliquables, et corrections de bugs divers sur un site en production.
-                    <br><br><span class="stack"><strong>Stack :</strong> PHP · WordPress · JavaScript · PDF.js · Polylang · MySQL</span>
-                </p>
             </div>
+        </div>
 
-            <hr>
+        <div class="wrap">
 
-            <!-- Projet 2 — Site vitrine -->
-            <div class="project-section">
-                <div class="flip-container">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="assets/img/site-vitrine.webp" alt="Site vitrine" loading="lazy" />
-                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="flip-back-badge"><i class="fas fa-store"></i></div>
-                            <h3>Site Vitrine</h3>
-                            <p>Simulation de présence en ligne d'une entreprise, responsive et bien structuré.</p>
-                            <a href="https://github.com/Rayan-Madi/Site-Vitrine-" target="_blank" class="btn-voir">
-                                Voir sur GitHub <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <p class="desc">Ce site vitrine a été développé comme un exercice pour simuler la présence en ligne d'une entreprise. Il comprend plusieurs sections classiques (accueil, services, à propos, contact) et vise à montrer ma capacité à concevoir un site professionnel, bien organisé et responsive.
-                    <br><br><span class="stack"><strong>Stack :</strong> HTML · CSS · JavaScript</span>
-                </p>
-            </div>
-
-            <hr>
-
-            <!-- Projet 3 — Sniper (jeu 3D Three.js) -->
-            <div class="project-section">
-                <div class="flip-container">
-                    <button type="button" class="play-demo" data-video="assets/video/sniper.mp4" data-poster="assets/img/sniper-poster.webp" data-title="Sniper — gameplay" aria-label="Voir la démo vidéo de Sniper">
-                        <i class="fas fa-play"></i> Démo
+            <!-- ═══ Sniper ════════════════════════════════ -->
+            <article class="project-section reveal" id="sniper">
+                <div class="project-media">
+                    <button type="button" class="play-demo"
+                            data-video="assets/video/sniper.mp4"
+                            data-poster="assets/img/sniper-poster.webp"
+                            data-title="Sniper — gameplay"
+                            aria-label="Voir la démo vidéo de Sniper">
+                        <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-play"></use></svg>
+                        DÉMO VIDÉO
                     </button>
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="assets/img/sniper.jpg" alt="Sniper — jeu de tir 3D en Three.js" loading="lazy" />
-                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="flip-back-badge"><i class="fas fa-crosshairs"></i></div>
-                            <h3>Sniper</h3>
-                            <p>Mon projet JavaScript le plus ambitieux : un jeu de tir 3D complet en Three.js/WebGL, avec un mode multijoueur temps réel.</p>
-                            <a href="https://github.com/Rayan-Madi/Sniper-Game" target="_blank" class="btn-voir">
-                                Voir sur GitHub <i class="fab fa-github"></i>
-                            </a>
-                        </div>
+                    <img src="assets/img/sniper.jpg" alt="Sniper — jeu de tir 3D en Three.js" loading="lazy">
+                </div>
+                <div class="project-body">
+                    <p class="project-kicker">JEU 3D · PROJET LE PLUS AMBITIEUX</p>
+                    <h2>Sniper</h2>
+                    <p class="desc"><strong>Mon projet JavaScript le plus ambitieux</strong> : un jeu de tir 3D
+                        complet développé « from scratch » en Three.js / WebGL, sans aucun moteur de jeu. Tout est
+                        fait main — rendu, animations de squelette, IA des PNJ, audio synthétisé, physique de balle
+                        et cinématiques 3D. Il propose une campagne solo de 6 missions et surtout un
+                        <strong>mode multijoueur 1v1 en temps réel</strong> conçu de bout en bout
+                        (« Sniper vs Contre-tueur »), avec une foule synchronisée entre les deux joueurs par seed
+                        partagé et un <strong>relais WebSocket Node.js</strong> écrit maison.</p>
+                    <div class="pills">
+                        <span class="hi">Three.js</span><span>WebGL</span><span>JavaScript</span>
+                        <span>Node.js</span><span>WebSocket</span><span>Vite</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rayan-Madi/Sniper-Game" target="_blank" rel="noopener">
+                            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-github"></use></svg>
+                            VOIR SUR GITHUB
+                        </a>
                     </div>
                 </div>
-                <p class="desc"><strong>Sniper</strong> — mon projet JavaScript le plus ambitieux, poussé au maximum : un <strong>jeu de tir 3D complet développé « from scratch » en Three.js / WebGL</strong>, sans aucun moteur de jeu. Tout est fait main — rendu, animations de squelette, IA des PNJ, audio synthétisé, physique de balle et cinématiques 3D. Il propose une campagne solo de 6 missions et surtout un <strong>mode multijoueur 1v1 en temps réel</strong> que j'ai conçu de bout en bout (« Sniper vs Contre-tueur »), avec une foule synchronisée entre les deux joueurs par seed partagé et un <strong>relais WebSocket Node.js</strong> écrit maison.
-                    <br><br><span class="stack"><strong>Stack :</strong> JavaScript · Three.js · WebGL · Node.js · WebSocket · Vite</span>
-                </p>
-            </div>
+            </article>
 
-            <hr>
+            <!-- ═══ FEMED ═════════════════════════════════ -->
+            <article class="project-section reveal" id="femed">
+                <div class="project-media">
+                    <span class="badge-live">
+                        <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-live"></use></svg>
+                        EN LIGNE
+                    </span>
+                    <img src="assets/img/femed.webp" alt="FEMED — site d'une ONG internationale" loading="lazy">
+                </div>
+                <div class="project-body">
+                    <p class="project-kicker">ONG INTERNATIONALE · EN PRODUCTION</p>
+                    <h2>FEMED</h2>
+                    <p class="desc">Développement et maintenance d'un thème WordPress entièrement personnalisé pour
+                        une ONG internationale présente dans 13 pays. Le site est multilingue (français, arabe,
+                        anglais) et couvre l'ensemble des activités de la fédération : publications, rapports,
+                        revues, carte interactive, actualités et dons. Travail réalisé directement dans les fichiers
+                        PHP du thème, <strong>sans page builder</strong>. Parmi les fonctionnalités développées :
+                        intégration de PDF.js pour la prévisualisation interactive de documents dans le navigateur,
+                        carousel hero animé, système de lightbox PDF, templates de pages dédiées, archive de
+                        publications entièrement cliquable, et corrections de bugs sur un site en production.</p>
+                    <div class="pills">
+                        <span>PHP</span><span>WordPress</span><span>JavaScript</span>
+                        <span>PDF.js</span><span>Polylang</span><span>MySQL</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://disparitions-euromed.org/" target="_blank" rel="noopener">
+                            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-external"></use></svg>
+                            VOIR LE SITE EN LIGNE
+                        </a>
+                    </div>
+                </div>
+            </article>
 
-            <!-- Projet 4 — Battle of Roles -->
-            <div class="project-section">
-                <div class="flip-container">
-                    <button type="button" class="play-demo" data-video="assets/video/battle-of-roles.mp4" data-poster="assets/img/battle-poster.webp" data-title="Battle of Roles — partie en ligne" aria-label="Voir la démo vidéo de Battle of Roles">
-                        <i class="fas fa-play"></i> Démo
+            <!-- ═══ Battle of Roles ═══════════════════════ -->
+            <article class="project-section reveal" id="battle">
+                <div class="project-media">
+                    <button type="button" class="play-demo"
+                            data-video="assets/video/battle-of-roles.mp4"
+                            data-poster="assets/img/battle-poster.webp"
+                            data-title="Battle of Roles — partie en ligne"
+                            aria-label="Voir la démo vidéo de Battle of Roles">
+                        <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-play"></use></svg>
+                        DÉMO VIDÉO
                     </button>
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="assets/img/battle-of-roles.webp" alt="Battle of Roles" loading="lazy" />
-                            <div class="flip-hint"><i class="fas fa-sync-alt"></i> Survoler</div>
-                        </div>
-                        <div class="flip-card-back">
-                            <div class="flip-back-badge"><i class="fas fa-gamepad"></i></div>
-                            <h3>Battle of Roles</h3>
-                            <p>Jeu web multijoueur en tour par tour avec leaderboard et carte spéciale Bouffon.</p>
-                            <a href="https://github.com/Rayan-Madi/Battle-Of-Roles" target="_blank" class="btn-voir">
-                                Voir sur GitHub <i class="fab fa-github"></i>
-                            </a>
-                        </div>
+                    <img src="assets/img/battle-of-roles.webp" alt="Battle of Roles — jeu de cartes multijoueur" loading="lazy">
+                </div>
+                <div class="project-body">
+                    <p class="project-kicker">JEU MULTIJOUEUR · BASE DE DONNÉES</p>
+                    <h2>Battle of Roles</h2>
+                    <p class="desc">Jeu web multijoueur développé en Python avec Flask et une base MySQL. Deux
+                        joueurs s'affrontent en tour par tour en jouant des cartes représentant trois rôles — Mage,
+                        Chevalier et Loup — chacun battant un autre selon un cycle logique. Une carte spéciale, le
+                        <strong>Bouffon</strong>, peut être jouée une seule fois par partie pour inverser les règles.
+                        Le projet intègre un backend Flask (routes, logique du jeu, sessions, utilisateurs), une base
+                        MySQL (comptes, parties, scores) et un frontend animé. Les joueurs peuvent s'inscrire, se
+                        connecter ou jouer en invité, leurs scores étant enregistrés dans un leaderboard global.</p>
+                    <div class="pills">
+                        <span>Python</span><span>Flask</span><span>MySQL</span>
+                        <span>HTML</span><span>CSS</span><span>JavaScript</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rayan-Madi/Battle-Of-Roles" target="_blank" rel="noopener">
+                            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-github"></use></svg>
+                            VOIR SUR GITHUB
+                        </a>
                     </div>
                 </div>
-                <p class="desc">Battle of Roles est un jeu web multijoueur développé en Python avec Flask et une base de données MySQL. Deux joueurs s'affrontent en tour par tour en jouant des cartes représentant trois rôles — Mage, Chevalier et Loup — chacun battant un autre selon un cycle logique. Une carte spéciale, le Bouffon, peut être jouée une seule fois par partie pour inverser les règles.
-                    <br><br>
-                    Le projet intègre un backend Flask (gestion des routes, logique du jeu, sessions, utilisateurs), une base MySQL (stockage des comptes, parties, scores), un frontend HTML/CSS/JS avec animations de cartes. Les joueurs peuvent s'inscrire, se connecter ou jouer en invité, leurs scores étant enregistrés dans un leaderboard global.
-                    <br><br><span class="stack"><strong>Stack :</strong> Python · Flask · MySQL · HTML · CSS · JavaScript</span>
-                </p>
-            </div>
+            </article>
 
-            <a href="https://github.com/Rayan-Madi?tab=repositories" class="more-projects" target="_blank">
-                <p class="plus">...</p>
-                <span>Voir plus sur GitHub</span>
+            <!-- ═══ Site vitrine ══════════════════════════ -->
+            <article class="project-section reveal" id="vitrine">
+                <div class="project-media">
+                    <img src="assets/img/site-vitrine.webp" alt="Site vitrine" loading="lazy">
+                </div>
+                <div class="project-body">
+                    <p class="project-kicker">EXERCICE · RESPONSIVE</p>
+                    <h2>Site vitrine</h2>
+                    <p class="desc">Site développé comme un exercice pour simuler la présence en ligne d'une
+                        entreprise. Il comprend plusieurs sections classiques (accueil, services, à propos, contact)
+                        et vise à montrer ma capacité à concevoir un site professionnel, bien organisé et responsive,
+                        sans dépendance externe.</p>
+                    <div class="pills">
+                        <span>HTML</span><span>CSS</span><span>JavaScript</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rayan-Madi/Site-Vitrine-" target="_blank" rel="noopener">
+                            <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-github"></use></svg>
+                            VOIR SUR GITHUB
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <a class="more-projects reveal" href="https://github.com/Rayan-Madi?tab=repositories" target="_blank" rel="noopener">
+                VOIR PLUS SUR GITHUB
+                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-external"></use></svg>
             </a>
         </div>
-    </div>
+    </main>
 
     <footer>
         <div class="footer-content">
-            <p class="copyright">&copy; Madi Rayan 2026 - Tous droits réservés</p>
+            <span>© MADI RAYAN 2026</span>
             <div class="footer-links">
-                <a>Mentions légales</a>
-                <a>Politique de confidentialité</a>
+                <a href="https://www.linkedin.com/in/rayan-madi-/" target="_blank" rel="noopener">LINKEDIN</a>
+                <a href="https://github.com/Rayan-Madi" target="_blank" rel="noopener">GITHUB</a>
+                <a href="contact.html">CONTACT</a>
             </div>
         </div>
     </footer>
 
-    <!-- Lightbox vidéo démo -->
+    <!-- Lightbox vidéo -->
     <div class="video-lightbox" id="video-lightbox" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="video-lightbox-backdrop" data-close></div>
         <div class="video-lightbox-inner">
             <button type="button" class="video-lightbox-close" data-close aria-label="Fermer la vidéo">
-                <i class="fas fa-times"></i>
+                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-close"></use></svg>
             </button>
             <p class="video-lightbox-title" id="video-lightbox-title"></p>
             <video id="video-lightbox-player" controls playsinline preload="none"></video>
         </div>
     </div>
 
-    <script src="assets/js/projets.js"></script>
+    <script src="assets/js/ui.js"></script>
     <script src="assets/js/video-lightbox.js"></script>
+    <script type="module">
+        import { initScene } from './assets/js/scene.js';
+
+        // Bandeau : même monde que l'accueil, mais un seul creux et pas de nœuds
+        initScene({
+            canvas: document.getElementById('scene'),
+            host: document.getElementById('page-head'),
+            camY: 118,
+            radius: 300,
+            nodes: [{ hidden: true, color: '#ff7a29', x: 0, z: 0, h: 0, m: 46 }]
+        });
+    </script>
 </body>
 </html>

@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Madi Rayan</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Contact | Rayan Madi</title>
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/contact.css">
-    <link rel="stylesheet" href="assets/css/background.css">
-    <meta name="description" content="Contactez Madi Rayan pour discuter de vos projets et idées">
+    <meta name="description" content="Contacter Rayan Madi, développeur fullstack à Paris. En recherche d'alternance 2026-2027, rythme 3 semaines entreprise / 1 semaine école.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Rayan Madi — Développeur Fullstack">
-    <meta property="og:description" content="Applications web complètes, du front au back. Ça marche... et pas que sur ma machine.">
+    <meta property="og:title" content="Contact — Rayan Madi">
+    <meta property="og:description" content="Alternance, mission, ou juste une question technique.">
     <meta property="og:url" content="https://madirayanportfolio.netlify.app/contact.html">
     <meta property="og:image" content="https://madirayanportfolio.netlify.app/assets/img/og-banner.png">
     <meta property="og:image:width" content="1200">
@@ -21,71 +18,87 @@
     <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-    <!-- Toast Notification -->
-    <div id="toast-notification" class="toast">
-        <div class="toast-content">
-            <i class="toast-icon fas fa-check-circle"></i>
-            <div class="toast-message">
-                <span class="toast-title">Message envoyé !</span>
-                <span class="toast-text">Votre message a été envoyé avec succès. Je vous répondrai dans les plus brefs délais.</span>
-            </div>
-            <button class="toast-close" onclick="closeToast()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="toast-progress"></div>
-    </div>
-
     <header>
         <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Contact</a>
-            </div>
+            <a href="index.html" class="logo">RM</a>
             <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="mesprojets.html"><i class="fas fa-briefcase"></i> Mes Projets</a></li>
-                <li><a href="contact.html" class="active"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="index.html">ACCUEIL</a></li>
+                <li><a href="mesprojets.html">PROJETS</a></li>
+                <li><a href="contact.html" class="active">CONTACT</a></li>
             </ul>
-            <div class="hamburger" id="hamburger-icon">
-                <i class="fas fa-bars"></i>
-            </div>
+            <button class="hamburger" id="hamburger-icon" aria-label="Ouvrir le menu" aria-expanded="false">
+                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-menu"></use></svg>
+            </button>
         </nav>
     </header>
 
     <main>
-        <div class="card tilt-card">
-            <div class="card-glare"></div>
-            <div class="content">
-                <h2><i class="fas fa-paper-plane"></i> Me contacter</h2>
-                <p>Une question, une opportunité, un projet — je réponds vite.</p>
+        <div class="contact-page" id="contact-page">
+            <canvas id="scene" aria-hidden="true"></canvas>
+            <div class="wrap">
+                <div class="contact-inner">
 
-                <form action="https://formspree.io/f/mzzevqwg" method="POST" id="contact-form">
-                    <div class="form-group form-group0">
-                        <label for="name"><i class="fas fa-user"></i> Votre nom :</label>
-                        <input type="text" id="name" name="name" required placeholder="Entrez votre nom" autocomplete="name">
+                    <div class="contact-form-card reveal">
+                        <h1>Parlons-en.</h1>
+                        <p class="lead">Alternance, mission, ou juste une question technique.</p>
+
+                        <form action="https://formspree.io/f/mzzevqwg" method="POST" id="contact-form">
+                            <div class="form-group">
+                                <label for="name">NOM</label>
+                                <input type="text" id="name" name="name" required placeholder="Votre nom" autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">EMAIL</label>
+                                <input type="email" id="email" name="email" required placeholder="vous@exemple.com" autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">MESSAGE</label>
+                                <textarea id="subject" name="subject" rows="5" required placeholder="Décrivez votre projet…"></textarea>
+                            </div>
+                            <button type="submit" class="btn submit-btn">
+                                <span>Envoyer</span>
+                                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-arrow"></use></svg>
+                            </button>
+                            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                        </form>
                     </div>
 
-                    <div class="form-group form-group1">
-                        <label for="email"><i class="fas fa-at"></i> Votre email :</label>
-                        <input type="email" id="email" name="email" required placeholder="Entrez votre email" autocomplete="email">
+                    <div class="contact-side">
+                        <div class="side-card reveal">
+                            <p class="lab">En recherche</p>
+                            <p>Alternance <strong>2026 — 2027</strong><br>
+                               3 semaines entreprise / 1 semaine école<br>
+                               Paris et Île-de-France</p>
+                        </div>
+
+                        <div class="side-card reveal">
+                            <p class="lab">Directement</p>
+                            <div class="side-links">
+                                <a href="mailto:madirayan75015@gmail.com">
+                                    <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-mail"></use></svg>
+                                    madirayan75015@gmail.com
+                                </a>
+                                <a href="https://www.linkedin.com/in/rayan-madi-/" target="_blank" rel="noopener">
+                                    <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-linkedin"></use></svg>
+                                    linkedin.com/in/rayan-madi
+                                </a>
+                                <a href="https://github.com/Rayan-Madi" target="_blank" rel="noopener">
+                                    <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-github"></use></svg>
+                                    github.com/Rayan-Madi
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="side-card reveal">
+                            <p class="lab">CV</p>
+                            <p style="margin-bottom:14px">PDF, à jour.</p>
+                            <a href="assets/cv/CV-Rayan-Madi.pdf" class="btn btn-ghost" download>
+                                <svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#i-download"></use></svg>
+                                Télécharger
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="form-group form-group2">
-                        <label for="subject"><i class="fas fa-comment-dots"></i> Votre message :</label>
-                        <textarea id="subject" name="subject" rows="5" required placeholder="Décrivez-moi votre projet en détail !" class="form-input"></textarea>
-                    </div>
-
-                    <div class="form-group form-group3">
-                        <button type="submit" class="submit-btn">
-                            <span>Envoyer</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </form>
-
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/rayan-madi-/" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/Rayan-Madi" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
             </div>
         </div>
@@ -93,14 +106,27 @@
 
     <footer>
         <div class="footer-content">
-            <p class="copyright">&copy; Madi Rayan 2026 - Tous droits réservés</p>
+            <span>© MADI RAYAN 2026</span>
             <div class="footer-links">
-                <a>Mentions légales</a>
-                <a>Politique de confidentialité</a>
+                <a href="https://www.linkedin.com/in/rayan-madi-/" target="_blank" rel="noopener">LINKEDIN</a>
+                <a href="https://github.com/Rayan-Madi" target="_blank" rel="noopener">GITHUB</a>
             </div>
         </div>
     </footer>
 
+    <script src="assets/js/ui.js"></script>
     <script src="assets/js/contact.js"></script>
+    <script type="module">
+        import { initScene } from './assets/js/scene.js';
+
+        // Scène volontairement calme : le formulaire doit rester le point d'attention
+        initScene({
+            canvas: document.getElementById('scene'),
+            host: document.getElementById('contact-page'),
+            camY: 170,
+            radius: 360,
+            nodes: [{ hidden: true, color: '#ff7a29', x: -60, z: 20, h: 0, m: 62 }]
+        });
+    </script>
 </body>
 </html>

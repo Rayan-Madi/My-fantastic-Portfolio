@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototype — galaxie de projets (Three.js)</title>
+<style>
+  :root {
+    --bg:      #14171c;
+    --surface: #1c2027;
+    --line:    #2a3038;
+    --text:    #e6e9ee;
+    --muted:   #8b95a3;
+    --accent:  #ff7a29;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 26px 22px 60px; }
+  h1 { font-size: 34px; letter-spacing: -.03em; margin: 0 0 6px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); font-size: 14px; margin: 0 0 22px; max-width: 62ch; line-height: 1.6; }
+
+  /* ─── Scène ─────────────────────────────────────────── */
+  /* Le halo vit en CSS derrière un canvas transparent : zéro coût GPU */
+  .stage {
+    position: relative; border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; touch-action: pan-y;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255,122,41,.13) 0%, transparent 62%),
+      radial-gradient(ellipse 90% 70% at 50% 80%, rgba(53,214,232,.07) 0%, transparent 70%),
+      var(--bg);
+  }
+  .stage canvas { display: block; width: 100%; height: 100%; }
+  #scene { height: 440px; }
+  @media (max-width: 768px) { #scene { height: 300px; } }
+
+  /* Étiquettes : de vrais liens, positionnés sur les nœuds projetés.
+     Accessibles au clavier et aux lecteurs d'écran, contrairement à un canvas. */
+  .labels { position: absolute; inset: 0; pointer-events: none; }
+  .node-link {
+    position: absolute; transform: translate(-50%, -100%);
+    pointer-events: auto; text-decoration: none;
+    font: 600 10px/1 ui-monospace, Menlo, monospace; letter-spacing: .09em;
+    color: rgba(230,233,238,.78); padding: 6px 9px; border-radius: 6px;
+    white-space: nowrap; transition: color .18s, background .18s;
+  }
+  .node-link:hover, .node-link:focus-visible {
+    color: var(--accent); background: rgba(20,23,28,.72); outline: none;
+  }
+  .node-link:focus-visible { box-shadow: 0 0 0 1px var(--accent); }
+
+  .hud {
+    position: absolute; pointer-events: none;
+    font: 600 9px/1.7 ui-monospace, Menlo, monospace;
+    letter-spacing: .09em; color: rgba(139,149,163,.62);
+  }
+  .hud-tl { top: 12px; left: 14px; }
+  .hud-tr { top: 12px; right: 14px; text-align: right; }
+  .hud-bl { bottom: 12px; left: 62px; }
+  .hud b { color: rgba(230,233,238,.8); font-weight: 600; }
+  .hud .warn { color: #ffb066; }
+
+  /* Gizmo d'axes — tourne avec la caméra, comme dans un éditeur 3D */
+  .gizmo { position: absolute; left: 12px; bottom: 10px; width: 46px; height: 46px; pointer-events: none; }
+  .gizmo text { font: 600 8px ui-monospace, Menlo, monospace; }
+
+  /* Carte profil en glass, posée sur la scène */
+  .card3d {
+    position: absolute; right: 16px; bottom: 16px; width: 240px; border-radius: 14px; padding: 13px 15px;
+    background: rgba(20,23,28,.62);
+    backdrop-filter: blur(9px) saturate(1.2); -webkit-backdrop-filter: blur(9px) saturate(1.2);
+    border: 1px solid var(--line); box-shadow: 0 12px 40px rgba(0,0,0,.55);
+  }
+  .card3d .top { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+  .card3d img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent); }
+  .card3d .nm { margin: 0 0 2px; font-size: 14px; font-weight: 700; }
+  .card3d .rl { margin: 0; font: 500 9px/1 ui-monospace, Menlo, monospace; letter-spacing: .1em; color: var(--accent); }
+  .card3d .row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .card3d .row span {
+    font-size: 10.5px; padding: 3px 7px; border-radius: 5px;
+    background: var(--bg); border: 1px solid var(--line); color: #b6c0cd;
+  }
+  .card3d .row span.hi { border-color: #35d6e8; color: #35d6e8; }
+
+  @media (max-width: 768px) {
+    .hud-tl, .hud-tr, .gizmo { display: none; }
+    .hud-bl { left: 14px; }
+    .card3d { position: static; width: auto; margin-top: 10px; }
+  }
+
+  .fallback {
+    display: none; padding: 60px 24px; text-align: center; color: var(--muted); font-size: 14px;
+  }
+
+  /* ─── Repli texte : le vrai chemin vers les projets ──── */
+  .list { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .list a {
+    display: block; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+    background: var(--surface); text-decoration: none; transition: border-color .2s, transform .2s;
+  }
+  .list a:hover, .list a:focus-visible { border-color: var(--accent); transform: translateY(-2px); outline: none; }
+  .list h3 { margin: 0 0 3px; font-size: 13.5px; color: var(--text); }
+  .list p { margin: 0; font: 500 9.5px/1.5 ui-monospace, Menlo, monospace; letter-spacing: .08em; color: var(--muted); }
+
+  /* ─── Panneau de réglages (prototype uniquement) ─────── */
+  .panel {
+    margin-top: 22px; border: 1px dashed #3a424e; border-radius: 12px; padding: 16px 18px;
+    background: rgba(28,32,39,.45);
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 13px; letter-spacing: .1em; color: var(--accent); }
+  .panel .hint { margin: 0 0 14px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .ctrls { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+  .ctrls label { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: #c3ccd8; cursor: pointer; }
+  .ctrls input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+  .metrics { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+             font: 500 11px/1.8 ui-monospace, Menlo, monospace; color: var(--muted); }
+  .metrics b { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Je construis des applications <em>qui tiennent.</em></h1>
+  <p class="sub">Prototype de la galaxie de projets en Three.js. Glisse pour orbiter, survole ou tabule sur un nœud pour l'ouvrir. Le panneau en bas sert à trancher les questions restées ouvertes.</p>
+
+  <div class="stage" id="stage">
+    <canvas id="scene"></canvas>
+    <div class="labels" id="labels"></div>
+    <div class="hud hud-tl mono" id="hudL"></div>
+    <div class="hud hud-tr mono" id="hudR"></div>
+    <div class="hud hud-bl mono" id="hudB"></div>
+    <svg class="gizmo" id="gizmo" viewBox="0 0 46 46" aria-hidden="true">
+      <line id="gzX" x1="23" y1="30" stroke="#ff5f56" stroke-width="1.6"/>
+      <line id="gzY" x1="23" y1="30" x2="23" y2="9" stroke="#7ddb92" stroke-width="1.6"/>
+      <line id="gzZ" x1="23" y1="30" stroke="#35d6e8" stroke-width="1.6"/>
+      <text id="gzXt" fill="#ff5f56">X</text>
+      <text x="21" y="7" fill="#7ddb92">Y</text>
+      <text id="gzZt" fill="#35d6e8">Z</text>
+    </svg>
+    <div class="card3d" id="card3d">
+      <div class="top">
+        <img src="../assets/img/profile.webp" alt="">
+        <div>
+          <p class="nm">Rayan Madi</p>
+          <p class="rl">DEV_FULLSTACK</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="hi">React</span><span class="hi">Three.js</span>
+        <span>Node.js</span><span>Python</span><span>MySQL</span>
+      </div>
+    </div>
+    <div class="fallback" id="fallback">
+      WebGL n'est pas disponible sur ce navigateur. La liste des projets ci-dessous reste entièrement fonctionnelle.
+    </div>
+  </div>
+
+  <!-- Toujours présent, sur mobile comme sur bureau : la galaxie est un raccourci, pas le chemin -->
+  <div class="list" id="list"></div>
+
+  <div class="panel">
+    <h2 class="mono">RÉGLAGES — POUR TRANCHER</h2>
+    <p class="hint">Chaque case correspond à une question laissée ouverte pendant la conception. Essaie, décide au ressenti.</p>
+    <div class="ctrls">
+      <label><input type="checkbox" id="cbAuto" checked> Rotation automatique</label>
+      <label><input type="checkbox" id="cbDense"> Densifier — 7 nœuds au lieu de 4</label>
+      <label><input type="checkbox" id="cbGrid" checked> Grille dense</label>
+      <label><input type="checkbox" id="cbCap"> Plafonner à 30 fps</label>
+      <label><input type="checkbox" id="cbHud" checked> Afficher le HUD</label>
+    </div>
+    <div class="metrics" id="metrics"></div>
+  </div>
+
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.169.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+// ═══════════════════════════════════════════════════════
+//  Données
+// ═══════════════════════════════════════════════════════
+const CORE = [
+  { n: 'SNIPER',        c: '#35d6e8', stack: 'THREE.JS · WEBGL · MULTIJOUEUR', url: 'https://github.com/Rayan-Madi/Sniper-Game',    x: -110, z:  -70, h: 62, m: 46 },
+  { n: 'FEMED',         c: '#ff7a29', stack: 'PHP · WORDPRESS · EN LIGNE',     url: 'https://disparitions-euromed.org/',            x:  115, z:  -25, h: 44, m: 40 },
+  { n: 'BATTLE OF ROLES', c: '#ff7a29', stack: 'PYTHON · FLASK · MYSQL',       url: 'https://github.com/Rayan-Madi/Battle-Of-Roles', x:  -55, z:  105, h: 32, m: 34 },
+  { n: 'SITE VITRINE',  c: '#8b95a3', stack: 'HTML · CSS · JS',                url: 'https://github.com/Rayan-Madi/Site-Vitrine-',   x: -165, z:   45, h: 22, m: 24 }
+];
+const EXTRA = [
+  { n: 'LINKUP RH',   c: '#8b95a3', stack: 'PROJET ÉCOLE', url: 'https://github.com/Rayan-Madi', x: -175, z:   55, h: 26, m: 20 },
+  { n: 'TO-DO LIST',  c: '#8b95a3', stack: 'JAVASCRIPT',   url: 'https://github.com/Rayan-Madi', x:   35, z: -140, h: 18, m: 17 },
+  { n: 'PORTFOLIO',   c: '#8b95a3', stack: 'HTML · CSS',   url: 'https://github.com/Rayan-Madi', x:  -20, z:  -20, h: 24, m: 19 }
+];
+
+// ═══════════════════════════════════════════════════════
+//  Réglages
+// ═══════════════════════════════════════════════════════
+const isMobile = matchMedia('(max-width: 768px)').matches;
+const reduce   = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const opt = {
+  auto:  !reduce,
+  dense: false,
+  grid:  !isMobile,
+  cap:   isMobile,
+  hud:   !isMobile
+};
+
+const canvas   = document.getElementById('scene');
+const stage    = document.getElementById('stage');
+const labelBox = document.getElementById('labels');
+const hudL = document.getElementById('hudL');
+const hudR = document.getElementById('hudR');
+const hudB = document.getElementById('hudB');
+
+// ═══════════════════════════════════════════════════════
+//  Renderer — avec repli si WebGL manque
+// ═══════════════════════════════════════════════════════
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: true, powerPreference: 'low-power' });
+  renderer.setClearAlpha(0);   // laisse passer le halo CSS
+} catch (e) {
+  canvas.style.display = 'none';
+  document.getElementById('fallback').style.display = 'block';
+}
+
+const scene  = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(48, 1, 1, 2000);
+
+// ═══════════════════════════════════════════════════════
+//  Sol déformé — la déformation est calculée dans le
+//  vertex shader : le GPU fait le travail, pas le CPU.
+// ═══════════════════════════════════════════════════════
+const MAX_NODES = 8;
+const gridUniforms = {
+  uNodes:  { value: Array.from({ length: MAX_NODES }, () => new THREE.Vector4()) },
+  uCount:  { value: 0 },
+  uColor:  { value: new THREE.Color('#35d6e8') },
+  uFade:   { value: 260 }
+};
+
+const gridMat = new THREE.ShaderMaterial({
+  uniforms: gridUniforms,
+  transparent: true,
+  depthWrite: false,
+  vertexShader: `
+    uniform vec4 uNodes[${MAX_NODES}];
+    uniform int  uCount;
+    uniform float uFade;
+    varying float vAlpha;
+    void main() {
+      vec3 p = position;
+      float dipY = 0.0;
+      for (int i = 0; i < ${MAX_NODES}; i++) {
+        if (i >= uCount) break;
+        vec2 d = p.xz - uNodes[i].xy;      // xy = position au sol
+        float r2 = dot(d, d) / uNodes[i].w; // w = rayon² d'influence
+        dipY -= uNodes[i].z * exp(-r2);     // z = profondeur du creux
+      }
+      p.y += dipY;
+      float dist = length(p.xz);
+      vAlpha = 1.0 - smoothstep(uFade * 0.45, uFade, dist);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+    }`,
+  fragmentShader: `
+    uniform vec3 uColor;
+    varying float vAlpha;
+    void main() { gl_FragColor = vec4(uColor, vAlpha * 0.30); }`
+});
+
+let gridMesh = null;
+function buildGrid(dense) {
+  if (gridMesh) { gridMesh.geometry.dispose(); scene.remove(gridMesh); }
+  const HALF = 260;
+  const step = dense ? 22 : 40;   // écart entre deux lignes
+  const seg  = dense ? 7  : 13;   // finesse d'échantillonnage le long d'une ligne
+  const pos = [];
+  for (let a = -HALF; a <= HALF; a += step) {
+    for (let b = -HALF; b < HALF; b += seg) {
+      pos.push(a, 0, b, a, 0, Math.min(b + seg, HALF)); // lignes suivant Z
+      pos.push(b, 0, a, Math.min(b + seg, HALF), 0, a); // lignes suivant X
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  gridMesh = new THREE.LineSegments(geo, gridMat);
+  scene.add(gridMesh);
+}
+
+// ═══════════════════════════════════════════════════════
+//  Nœuds : sphère + halo, et un vrai lien HTML par-dessus
+// ═══════════════════════════════════════════════════════
+function haloTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d').createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0,   'rgba(255,255,255,1)');
+  g.addColorStop(0.25,'rgba(255,255,255,.42)');
+  g.addColorStop(1,   'rgba(255,255,255,0)');
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+}
+const HALO = haloTexture();
+// Chaque projet porte sa couleur ; le survol l'éclaircit au lieu de la remplacer.
+const COL_WHITE = new THREE.Color('#ffffff');
+
+const sphereGeo = new THREE.SphereGeometry(1, 16, 12);
+let nodes = [];
+
+function buildNodes(list) {
+  nodes.forEach(o => { scene.remove(o.mesh); scene.remove(o.halo); scene.remove(o.stem); o.link.remove(); });
+  labelBox.innerHTML = '';
+  nodes = list.map(d => {
+    const R = 1.6 + d.m * 0.075;
+    const base = new THREE.Color(d.c);
+    const lit  = base.clone().lerp(COL_WHITE, 0.55);
+
+    const mesh = new THREE.Mesh(sphereGeo, new THREE.MeshBasicMaterial({ color: base }));
+    mesh.scale.setScalar(R);
+    mesh.position.set(d.x, d.h, d.z);
+    scene.add(mesh);
+
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: HALO, color: base, transparent: true, opacity: .30,
+      depthWrite: false, blending: THREE.AdditiveBlending
+    }));
+    halo.scale.setScalar(R * 11);
+    halo.position.copy(mesh.position);
+    scene.add(halo);
+
+    // tige pointillée jusqu'au creux qu'il forme dans le sol
+    const stemGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(d.x, d.h, d.z), new THREE.Vector3(d.x, -d.m * 0.9, d.z)
+    ]);
+    const stem = new THREE.LineSegments(stemGeo, new THREE.LineDashedMaterial({
+      color: base, transparent: true, opacity: .30, dashSize: 5, gapSize: 5
+    }));
+    stem.computeLineDistances();
+    scene.add(stem);
+
+    const link = document.createElement('a');
+    link.className = 'node-link mono';
+    link.href = d.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = d.n;
+    link.setAttribute('aria-label', `${d.n} — ${d.stack}`);
+    labelBox.appendChild(link);
+
+    const o = { d, mesh, halo, stem, link, base, lit, hot: false };
+    link.addEventListener('mouseenter', () => o.hot = true);
+    link.addEventListener('mouseleave', () => o.hot = false);
+    link.addEventListener('focus',      () => o.hot = true);
+    link.addEventListener('blur',       () => o.hot = false);
+    return o;
+  });
+
+  // uniforms du shader : chaque nœud creuse le sol sous lui
+  const arr = gridUniforms.uNodes.value;
+  list.forEach((d, i) => arr[i].set(d.x, d.z, d.m * 0.85, d.m * d.m * 3.2));
+  gridUniforms.uCount.value = Math.min(list.length, MAX_NODES);
+
+  // liste texte de repli
+  const box = document.getElementById('list');
+  box.innerHTML = '';
+  list.forEach(d => {
+    const a = document.createElement('a');
+    a.href = d.url; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = `<h3>${d.n}</h3><p>${d.stack}</p>`;
+    box.appendChild(a);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  Caméra : rotation lente + glissement
+// ═══════════════════════════════════════════════════════
+let azimuth = 0, drag = 0, dragging = false, lastX = 0;
+
+stage.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointerup',   e => { dragging = false; stage.releasePointerCapture(e.pointerId); });
+stage.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  drag += (e.clientX - lastX) * 0.006;
+  lastX = e.clientX;
+});
+
+function resize() {
+  const r = stage.getBoundingClientRect();
+  camera.aspect = r.width / r.height;
+  camera.updateProjectionMatrix();
+  renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+  renderer.setSize(r.width, r.height, false);
+}
+
+// ═══════════════════════════════════════════════════════
+//  Boucle — s'arrête hors écran et onglet en arrière-plan
+// ═══════════════════════════════════════════════════════
+let visible = true, focused = true, running = false;
+new IntersectionObserver(([e]) => { visible = e.isIntersecting; kick(); }, { threshold: 0.01 }).observe(stage);
+document.addEventListener('visibilitychange', () => { focused = !document.hidden; kick(); });
+
+let t = 0, last = performance.now(), fps = 60, acc = 0, frames = 0, paused = 0;
+const v = new THREE.Vector3();
+
+const gizmo = document.getElementById('gizmo');
+const gzX = document.getElementById('gzX'), gzXt = document.getElementById('gzXt');
+const gzZ = document.getElementById('gzZ'), gzZt = document.getElementById('gzZt');
+function setAxis(line, label, dx, dy) {
+  line.setAttribute('x2', 23 + dx);
+  line.setAttribute('y2', 30 + dy);
+  label.setAttribute('x', 23 + dx * 1.35 - 2);
+  label.setAttribute('y', 30 + dy * 1.35 + 3);
+}
+
+function frame(now) {
+  if (!visible || !focused) { running = false; paused++; return; }
+  requestAnimationFrame(frame);
+
+  const dt = now - last;
+  if (opt.cap && dt < 33) return;
+  last = now;
+  frames++; acc += dt;
+  if (acc > 400) { fps = Math.round(1000 / (acc / frames)); acc = 0; frames = 0; }
+
+  if (opt.auto && !reduce) t += 0.0016;
+  azimuth = t + drag;
+
+  const R = 330;
+  camera.position.set(Math.sin(azimuth) * R, 165, Math.cos(azimuth) * R);
+  camera.lookAt(0, 20, 0);
+
+  const rect = stage.getBoundingClientRect();
+  nodes.forEach(o => {
+    o.mesh.material.color.lerp(o.hot ? o.lit : o.base, 0.18);
+    o.halo.material.color.lerp(o.hot ? o.lit : o.base, 0.18);
+    o.halo.material.opacity += ((o.hot ? 0.58 : 0.30) - o.halo.material.opacity) * 0.18;
+    o.mesh.scale.setScalar((1.6 + o.d.m * 0.075) * (o.hot ? 1.22 : 1));
+
+    v.copy(o.mesh.position).project(camera);
+    o.link.style.left = `${(v.x * 0.5 + 0.5) * rect.width}px`;
+    o.link.style.top  = `${(-v.y * 0.5 + 0.5) * rect.height - 12}px`;
+    o.link.style.opacity = v.z > 1 ? 0 : 1;
+  });
+
+  renderer.render(scene, camera);
+
+  if (opt.hud) {
+    const info = renderer.info.render;
+    const p = camera.position;
+    hudL.innerHTML = `PERSP  FOV 48<br>CAM <b>${p.x.toFixed(0)} ${p.y.toFixed(0)} ${p.z.toFixed(0)}</b>`;
+    hudR.innerHTML = `TRIS <b>${info.triangles}</b>  CALLS <b>${info.calls}</b><br>` +
+                     `<span class="${fps < 45 ? 'warn' : ''}">${fps} FPS</span>`;
+    hudB.innerHTML = `${nodes.length} PROJETS · GLISSE POUR ORBITER`;
+
+    // Gizmo : les axes du monde vus depuis la caméra courante
+    const L = 15, TILT = 0.34, ca = Math.cos(azimuth), sa = Math.sin(azimuth);
+    setAxis(gzX, gzXt,  ca * L,  sa * L * TILT);
+    setAxis(gzZ, gzZt, -sa * L,  ca * L * TILT);
+  }
+  hudL.style.display = hudR.style.display = gizmo.style.display = opt.hud ? '' : 'none';
+
+  document.getElementById('metrics').innerHTML =
+    `fps <b>${fps}</b> · triangles <b>${renderer.info.render.triangles}</b> · ` +
+    `appels de rendu <b>${renderer.info.render.calls}</b> · ` +
+    `segments de grille <b>${gridMesh.geometry.attributes.position.count / 2}</b> · ` +
+    `mises en pause <b>${paused}</b> · ` +
+    `pixelRatio <b>${renderer.getPixelRatio()}</b>`;
+}
+
+function kick() {
+  if (running || !visible || !focused) return;
+  running = true; last = performance.now();
+  requestAnimationFrame(frame);
+}
+
+// ═══════════════════════════════════════════════════════
+//  Réglages du panneau
+// ═══════════════════════════════════════════════════════
+function bind(id, key, after) {
+  const el = document.getElementById(id);
+  el.checked = opt[key];
+  el.addEventListener('change', () => { opt[key] = el.checked; if (after) after(); kick(); });
+}
+bind('cbAuto',  'auto');
+bind('cbDense', 'dense', () => buildNodes(opt.dense ? CORE.concat(EXTRA) : CORE));
+bind('cbGrid',  'grid',  () => buildGrid(opt.grid));
+bind('cbCap',   'cap');
+bind('cbHud',   'hud');
+
+if (renderer) {
+  buildGrid(opt.grid);
+  buildNodes(CORE);
+  resize();
+  addEventListener('resize', () => { resize(); kick(); });
+  kick();
+}
+</script>
+</body>
+</html>

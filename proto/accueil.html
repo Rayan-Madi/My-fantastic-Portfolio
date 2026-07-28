@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototype — accueil animé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#14171c; --surface:#1c2027; --line:#2a3038;
+    --text:#e6e9ee; --muted:#8b95a3; --accent:#ff7a29; --cyan:#35d6e8;
+    --ease: cubic-bezier(.22,.8,.3,1);
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font-family:system-ui,-apple-system,'Segoe UI',sans-serif; }
+  .mono { font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace; }
+  h1,h2,h3 { font-family:'Space Grotesk',system-ui,sans-serif; }
+
+  /* ═══ Système de mouvement ═══════════════════════════
+     Une seule règle : apparition à l'entrée dans le viewport,
+     une fois, 8px de montée. Pas de cascade au chargement.  */
+  .reveal { opacity:0; transform:translateY(9px); }
+  .reveal.in { opacity:1; transform:none;
+               transition:opacity .5s var(--ease), transform .5s var(--ease); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    .reveal, .reveal.in { opacity:1; transform:none; transition:none; }
+    * { animation:none !important; }
+  }
+
+  /* ═══ Navigation ═════════════════════════════════════ */
+  header { position:sticky; top:0; z-index:20; background:rgba(20,23,28,.72);
+           backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+           border-bottom:1px solid transparent; transition:border-color .3s var(--ease); }
+  header.stuck { border-bottom-color:var(--line); }
+  nav { max-width:1120px; margin:0 auto; padding:14px 22px;
+        display:flex; justify-content:space-between; align-items:center; }
+  nav .logo { font:700 13px/1 'Space Grotesk',sans-serif; letter-spacing:.14em; }
+  nav ul { display:flex; gap:22px; list-style:none; margin:0; padding:0; }
+  nav a { position:relative; font:600 10.5px/1 ui-monospace,Menlo,monospace; letter-spacing:.12em;
+          color:var(--muted); text-decoration:none; padding:4px 0; transition:color .25s var(--ease); }
+  nav a::after { content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
+                 background:currentColor; transform:scaleX(0); transform-origin:right;
+                 transition:transform .32s var(--ease); }
+  nav a:hover, nav a:focus-visible { color:var(--text); outline:none; }
+  nav a:hover::after, nav a:focus-visible::after { transform:scaleX(1); transform-origin:left; }
+  nav a.on { color:var(--accent); }
+  nav a.on::after { transform:scaleX(1); }
+
+  .wrap { max-width:1120px; margin:0 auto; padding:0 22px; }
+
+  /* ═══ Héros ══════════════════════════════════════════ */
+  .hero { position:relative; }
+  #scene { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hero-inner { position:relative; z-index:2; display:grid;
+                grid-template-columns:minmax(0,1fr) 264px; gap:30px;
+                align-items:start; padding:52px 0 190px; }
+  h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.05; letter-spacing:-.035em; margin:0 0 16px; }
+  h1 em { font-style:normal; color:var(--accent); }
+  .lead { font-size:14.5px; line-height:1.72; color:#a8b2c0; margin:0 0 24px; max-width:46ch; }
+
+  .btn { display:inline-flex; align-items:center; gap:9px; font:600 12.5px/1 system-ui,sans-serif;
+         padding:12px 19px; border-radius:9px; background:var(--accent); color:#14171c;
+         text-decoration:none; transition:transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .btn .ar { transition:transform .3s var(--ease); }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(255,122,41,.26); }
+  .btn:hover .ar { transform:translateX(4px); }
+  .btn2 { background:transparent; border:1px solid #3a424e; color:#c3ccd8; margin-left:8px; }
+  .btn2:hover { border-color:var(--accent); box-shadow:none; }
+
+  .card { border-radius:14px; padding:15px 16px;
+          background:rgba(20,23,28,.62); border:1px solid var(--line);
+          backdrop-filter:blur(9px) saturate(1.2); -webkit-backdrop-filter:blur(9px) saturate(1.2);
+          box-shadow:0 12px 40px rgba(0,0,0,.45); }
+  .card .top { display:flex; align-items:center; gap:11px; margin-bottom:13px; }
+  .card img { width:42px; height:42px; border-radius:50%; object-fit:cover; border:1px solid var(--accent); }
+  .card .nm { margin:0 0 2px; font-size:15px; font-weight:700; }
+  .card .rl { margin:0; font:500 9px/1 ui-monospace,Menlo,monospace; letter-spacing:.1em; color:var(--accent); }
+  .lab { font:600 9.5px/1 ui-monospace,Menlo,monospace; letter-spacing:.16em; color:#5f6b7a; margin:0 0 9px; }
+  .pills { display:flex; flex-wrap:wrap; gap:5px; }
+  .pills span { font-size:11px; padding:5px 9px; border-radius:6px; background:var(--bg);
+                border:1px solid var(--line); color:#b6c0cd; }
+  .pills span.hi { border-color:var(--cyan); color:var(--cyan); }
+
+  .hud { position:absolute; z-index:2; pointer-events:none;
+         font:600 9px/1.7 ui-monospace,Menlo,monospace; letter-spacing:.09em; color:rgba(139,149,163,.6); }
+  .hud-tl { top:14px; left:22px; } .hud-tr { top:14px; right:22px; text-align:right; }
+  .hud b { color:rgba(230,233,238,.78); }
+
+  /* ═══ Sections ═══════════════════════════════════════ */
+  section { padding:52px 0; }
+  .sec-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; }
+  .sec-head h2 { font-size:24px; letter-spacing:-.02em; margin:0; }
+  .sec-head a { font:600 10.5px/1 ui-monospace,Menlo,monospace; letter-spacing:.1em;
+                color:var(--muted); text-decoration:none; transition:color .25s var(--ease); }
+  .sec-head a:hover { color:var(--accent); }
+
+  .grid4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .pc { display:block; border-radius:13px; overflow:hidden; border:1px solid var(--line);
+        background:var(--surface); text-decoration:none; color:var(--text);
+        transition:border-color .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease); }
+  .pc:hover, .pc:focus-visible { border-color:var(--accent); transform:translateY(-4px);
+        box-shadow:0 14px 34px rgba(0,0,0,.45); outline:none; }
+  .pcov { position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--bg); }
+  .pcov img { width:100%; height:100%; object-fit:cover;
+              filter:saturate(.68) brightness(.84);
+              transition:filter .45s var(--ease), transform .6s var(--ease); }
+  .pc:hover .pcov img, .pc:focus-visible .pcov img { filter:none; transform:scale(1.05); }
+  .pcov::after { content:""; position:absolute; inset:0;
+                 background:linear-gradient(to top,rgba(20,23,28,.94),transparent 62%); }
+  .badge { position:absolute; z-index:2; top:9px; right:9px; border-radius:999px; padding:4px 10px;
+           font:600 9px/1 ui-monospace,Menlo,monospace; letter-spacing:.06em; color:var(--accent);
+           border:1px solid var(--accent); background:rgba(20,23,28,.62);
+           backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+           transition:box-shadow .3s var(--ease); }
+  .badge.live { color:#7ddb92; border-color:#7ddb92; }
+  .pc:hover .badge { box-shadow:0 0 0 3px rgba(255,122,41,.14); }
+  .pc:hover .badge.live { box-shadow:0 0 0 3px rgba(125,219,146,.14); }
+  .ptit { position:absolute; z-index:2; left:13px; right:13px; bottom:10px; }
+  .ptit h3 { margin:0; font-size:14px; color:var(--text); text-decoration:none; }
+  .ptit p { margin:2px 0 0; font:500 8.5px/1 ui-monospace,Menlo,monospace;
+            letter-spacing:.08em; color:var(--muted); }
+
+  .tl { border-left:1px solid var(--line); padding-left:22px; }
+  .tli { position:relative; margin-bottom:22px; }
+  .tli::before { content:""; position:absolute; left:-27px; top:5px; width:9px; height:9px;
+                 border-radius:50%; background:var(--bg); border:1px solid var(--accent);
+                 transition:box-shadow .3s var(--ease); }
+  .tli:hover::before { box-shadow:0 0 0 4px rgba(255,122,41,.14); }
+  .tld { font:600 9.5px/1 ui-monospace,Menlo,monospace; letter-spacing:.1em; color:var(--accent); }
+  .tlt { margin:7px 0 3px; font-size:15px; font-weight:700; }
+  .tlp { margin:0; font-size:13px; line-height:1.65; color:var(--muted); max-width:64ch; }
+
+  footer { border-top:1px solid #22272f; padding:20px 0; }
+  footer .in { max-width:1120px; margin:0 auto; padding:0 22px; display:flex;
+               justify-content:space-between; font:500 10px/1 ui-monospace,Menlo,monospace; color:#5f6b7a; }
+
+  @media (max-width:820px) {
+    .hero-inner { grid-template-columns:1fr; padding:34px 0 40px; }
+    .card { order:2; }
+    #scene { position:relative; height:250px; border-radius:14px; border:1px solid var(--line); }
+    .hero { display:flex; flex-direction:column-reverse; }
+    .hud { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <nav>
+    <span class="logo">RM</span>
+    <ul>
+      <li><a href="#" class="on">ACCUEIL</a></li>
+      <li><a href="#projets">PROJETS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="hero" id="hero">
+  <canvas id="scene"></canvas>
+  <div class="hud hud-tl mono" id="hudL"></div>
+  <div class="hud hud-tr mono" id="hudR"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <h1 class="reveal">Je construis des applications <em>qui tiennent.</em></h1>
+        <p class="lead reveal">Du front au back. Un jeu 3D multijoueur écrit sans moteur, le site d'une ONG présente dans 13 pays, un jeu de cartes en ligne avec sa base de données.</p>
+        <div class="reveal">
+          <a href="#projets" class="btn">Voir les projets <span class="ar">→</span></a>
+          <a href="../assets/cv/CV-Rayan-Madi.pdf" class="btn btn2" download>Télécharger le CV</a>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="top">
+          <img src="../assets/img/profile.webp" alt="">
+          <div><p class="nm">Rayan Madi</p><p class="rl">PARIS · ALTERNANCE 2026</p></div>
+        </div>
+        <p class="lab">FRONT</p>
+        <div class="pills" style="margin-bottom:11px">
+          <span class="hi">React</span><span class="hi">Three.js</span><span>JavaScript</span>
+        </div>
+        <p class="lab">BACK</p>
+        <div class="pills"><span>Node.js</span><span>Python</span><span>MySQL</span><span>PHP</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="projets">
+    <div class="sec-head reveal">
+      <h2>Projets</h2>
+      <a href="#">TOUT VOIR ↗</a>
+    </div>
+    <div class="grid4">
+      <a class="pc reveal" href="https://github.com/Rayan-Madi/Sniper-Game" target="_blank" rel="noopener">
+        <div class="pcov"><span class="badge">▶ DÉMO</span>
+          <img src="../assets/img/sniper.jpg" alt="Sniper" loading="lazy">
+          <div class="ptit"><h3>Sniper</h3><p>THREE.JS · WEBGL</p></div></div>
+      </a>
+      <a class="pc reveal" href="https://disparitions-euromed.org/" target="_blank" rel="noopener">
+        <div class="pcov"><span class="badge live">● EN LIGNE</span>
+          <img src="../assets/img/femed.webp" alt="FEMED" loading="lazy">
+          <div class="ptit"><h3>FEMED</h3><p>PHP · WORDPRESS</p></div></div>
+      </a>
+      <a class="pc reveal" href="https://github.com/Rayan-Madi/Battle-Of-Roles" target="_blank" rel="noopener">
+        <div class="pcov"><span class="badge">▶ DÉMO</span>
+          <img src="../assets/img/battle-of-roles.webp" alt="Battle of Roles" loading="lazy">
+          <div class="ptit"><h3>Battle of Roles</h3><p>PYTHON · FLASK</p></div></div>
+      </a>
+      <a class="pc reveal" href="https://github.com/Rayan-Madi/Site-Vitrine-" target="_blank" rel="noopener">
+        <div class="pcov">
+          <img src="../assets/img/site-vitrine.webp" alt="Site vitrine" loading="lazy">
+          <div class="ptit"><h3>Site vitrine</h3><p>HTML · CSS · JS</p></div></div>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head reveal"><h2>Parcours</h2></div>
+    <div class="tl">
+      <div class="tli reveal"><span class="tld">2026 — 2027 · EN COURS</span>
+        <p class="tlt">Bachelor Développeur Full-Stack — IMIE Paris</p>
+        <p class="tlp">API, architecture des systèmes, sécurisation des services, déploiement d'infrastructures.</p></div>
+      <div class="tli reveal"><span class="tld">MARS — MAI 2026 · STAGE</span>
+        <p class="tlt">Développeur web — FEMED</p>
+        <p class="tlp">Refonte du site WordPress/PHP d'une ONG présente dans 13 pays, sécurisation anti-spam, injections SQL, XSS.</p></div>
+      <div class="tli reveal"><span class="tld">2024 — 2026 · DIPLÔMÉ</span>
+        <p class="tlt">Concepteur Développeur Web &amp; Mobile — IMIE Paris</p>
+        <p class="tlp">Applications web et mobiles, front-end et back-end, gestion de projet.</p></div>
+    </div>
+  </section>
+</div>
+
+<footer><div class="in"><span>© MADI RAYAN 2026</span><span>LINKEDIN · GITHUB</span></div></footer>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.169.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const reduce   = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 820px)').matches;
+
+// ═══ Apparition au scroll — une fois, léger décalage par groupe ═══
+const io = new IntersectionObserver((entries, obs) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const sibs = [...e.target.parentElement.children].filter(n => n.classList.contains('reveal'));
+    e.target.style.transitionDelay = `${Math.min(sibs.indexOf(e.target), 4) * 55}ms`;
+    e.target.classList.add('in');
+    obs.unobserve(e.target);
+  });
+}, { threshold: .15, rootMargin: '0px 0px -40px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ═══ Barre de navigation : trait au décollement ═══
+const hdr = document.getElementById('hdr');
+addEventListener('scroll', () => hdr.classList.toggle('stuck', scrollY > 8), { passive: true });
+
+// ═══ Scène ═══
+const NODES = [
+  { n:'SNIPER',          c:'#35d6e8', url:'https://github.com/Rayan-Madi/Sniper-Game',    x:-150, z:-60, h:60, m:40 },
+  { n:'FEMED',           c:'#ff7a29', url:'https://disparitions-euromed.org/',            x:  30, z:-10, h:46, m:40 },
+  { n:'BATTLE OF ROLES', c:'#ff7a29', url:'https://github.com/Rayan-Madi/Battle-Of-Roles',x: 170, z: 70, h:38, m:32 },
+  { n:'SITE VITRINE',    c:'#8b95a3', url:'https://github.com/Rayan-Madi/Site-Vitrine-',  x: -55, z:115, h:26, m:24 }
+];
+
+const canvas = document.getElementById('scene');
+const hero   = document.getElementById('hero');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias:!isMobile, alpha:true, powerPreference:'low-power' }); }
+catch (e) { canvas.style.display = 'none'; }
+
+if (renderer) {
+  renderer.setClearAlpha(0);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(48, 1, 1, 2000);
+
+  const MAX = 8;
+  const uni = {
+    uNodes:{ value: Array.from({length:MAX}, () => new THREE.Vector4()) },
+    uCount:{ value: NODES.length },
+    uColor:{ value: new THREE.Color('#35d6e8') },
+    uFade :{ value: 260 }
+  };
+  NODES.forEach((d,i) => uni.uNodes.value[i].set(d.x, d.z, d.m*.85, d.m*d.m*3.2));
+
+  const mat = new THREE.ShaderMaterial({
+    uniforms: uni, transparent:true, depthWrite:false,
+    vertexShader:`
+      uniform vec4 uNodes[${MAX}]; uniform int uCount; uniform float uFade;
+      varying float vA;
+      void main(){
+        vec3 p = position; float d = 0.0;
+        for(int i=0;i<${MAX};i++){
+          if(i>=uCount) break;
+          vec2 q = p.xz - uNodes[i].xy;
+          d -= uNodes[i].z * exp(-dot(q,q)/uNodes[i].w);
+        }
+        p.y += d;
+        vA = 1.0 - smoothstep(uFade*0.45, uFade, length(p.xz));
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(p,1.0);
+      }`,
+    fragmentShader:`
+      uniform vec3 uColor; varying float vA;
+      void main(){ gl_FragColor = vec4(uColor, vA*0.30); }`
+  });
+
+  const HALF = 260, ST = isMobile ? 38 : 24, SEG = isMobile ? 12 : 7, pos = [];
+  for (let a = -HALF; a <= HALF; a += ST)
+    for (let b = -HALF; b < HALF; b += SEG) {
+      const e = Math.min(b + SEG, HALF);
+      pos.push(a,0,b, a,0,e);
+      pos.push(b,0,a, e,0,a);
+    }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  scene.add(new THREE.LineSegments(geo, mat));
+
+  // halo des nœuds
+  const cvs = document.createElement('canvas'); cvs.width = cvs.height = 128;
+  const g2 = cvs.getContext('2d'), rg = g2.createRadialGradient(64,64,0,64,64,64);
+  rg.addColorStop(0,'rgba(255,255,255,1)'); rg.addColorStop(.25,'rgba(255,255,255,.42)');
+  rg.addColorStop(1,'rgba(255,255,255,0)');
+  g2.fillStyle = rg; g2.fillRect(0,0,128,128);
+  const HALO = new THREE.CanvasTexture(cvs);
+  const sph = new THREE.SphereGeometry(1,16,12);
+  const WHITE = new THREE.Color('#fff');
+
+  const objs = NODES.map(d => {
+    const base = new THREE.Color(d.c), lit = base.clone().lerp(WHITE,.55);
+    const R = 1.6 + d.m*.075;
+    const mesh = new THREE.Mesh(sph, new THREE.MeshBasicMaterial({ color: base }));
+    mesh.scale.setScalar(R); mesh.position.set(d.x, d.h, d.z); scene.add(mesh);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map:HALO, color:base, transparent:true,
+                   opacity:.3, depthWrite:false, blending:THREE.AdditiveBlending }));
+    halo.scale.setScalar(R*11); halo.position.copy(mesh.position); scene.add(halo);
+    return { d, mesh, halo, base, lit, R, hot:false };
+  });
+
+  // Les cartes projet et la scène se répondent : survoler une carte allume son nœud
+  document.querySelectorAll('.pc').forEach((el, i) => {
+    if (!objs[i]) return;
+    ['mouseenter','focus'].forEach(ev => el.addEventListener(ev, () => objs[i].hot = true));
+    ['mouseleave','blur'].forEach(ev => el.addEventListener(ev, () => objs[i].hot = false));
+  });
+
+  function resize() {
+    const r = hero.getBoundingClientRect();
+    const h = isMobile ? canvas.getBoundingClientRect().height : r.height;
+    camera.aspect = r.width / h; camera.updateProjectionMatrix();
+    renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.setSize(r.width, h, false);
+  }
+
+  let t = 0, drag = 0, dragging = false, lastX = 0, scrollT = 0;
+  hero.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; });
+  addEventListener('pointerup',   () => dragging = false);
+  addEventListener('pointermove', e => { if (dragging) { drag += (e.clientX-lastX)*.006; lastX = e.clientX; } });
+
+  let visible = true, running = false, fps = 60, acc = 0, fr = 0, last = 0;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; kick(); }).observe(hero);
+  document.addEventListener('visibilitychange', kick);
+
+  function frame(now) {
+    if (!visible || document.hidden) { running = false; return; }
+    requestAnimationFrame(frame);
+    const dt = now - last;
+    if (isMobile && dt < 33) return;
+    last = now; fr++; acc += dt;
+    if (acc > 400) { fps = Math.round(1000/(acc/fr)); acc = 0; fr = 0; }
+
+    // Le scroll fait plonger la caméra : la scène accompagne la lecture
+    const rect = hero.getBoundingClientRect();
+    scrollT += ((Math.min(Math.max(-rect.top / Math.max(rect.height,1), 0), 1)) - scrollT) * .08;
+
+    if (!reduce) t += .0016;
+    const a = t + drag, R = 330;
+    camera.position.set(Math.sin(a)*R, 150 + scrollT*130, Math.cos(a)*R);
+    camera.lookAt(0, 20 - scrollT*40, 0);
+
+    objs.forEach(o => {
+      o.mesh.material.color.lerp(o.hot ? o.lit : o.base, .16);
+      o.halo.material.color.lerp(o.hot ? o.lit : o.base, .16);
+      o.halo.material.opacity += ((o.hot ? .6 : .3) - o.halo.material.opacity) * .16;
+      o.mesh.scale.setScalar(o.R * (o.hot ? 1.3 : 1));
+    });
+
+    renderer.render(scene, camera);
+
+    if (!isMobile) {
+      const inf = renderer.info.render, p = camera.position;
+      document.getElementById('hudL').innerHTML =
+        `PERSP  FOV 48<br>CAM <b>${p.x.toFixed(0)} ${p.y.toFixed(0)} ${p.z.toFixed(0)}</b>`;
+      document.getElementById('hudR').innerHTML =
+        `TRIS <b>${inf.triangles}</b>  CALLS <b>${inf.calls}</b><br><b>${fps} FPS</b>`;
+    }
+  }
+  function kick() {
+    if (running || !visible || document.hidden) return;
+    running = true; last = performance.now(); requestAnimationFrame(frame);
+  }
+
+  resize(); addEventListener('resize', () => { resize(); kick(); }); kick();
+}
+</script>
+</body>
+</html>
