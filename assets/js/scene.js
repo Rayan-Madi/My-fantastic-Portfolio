@@ -166,8 +166,8 @@ export function initScene(o) {
     });
 
     // ─── Caméra ───────────────────────────────────────────
-    const camY = o.camY ?? 108;
-    const radius = o.radius ?? 470;
+    const camY = o.camY ?? 112;
+    const radius = o.radius ?? 400;
     let angle = 0, drag = 0, dragging = false, lastX = 0, dive = 0;
 
     o.host.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; });
@@ -216,9 +216,9 @@ export function initScene(o) {
         // Oscillation bornée plutôt qu'un tour complet : la composition
         // reste maîtrisée (les étiquettes ne passent pas sur le texte).
         // Le glissement de l'utilisateur, lui, n'est pas limité.
-        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.12) + drag;
+        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.07) + drag;
         camera.position.set(Math.sin(angle) * radius, camY + dive * 130, Math.cos(angle) * radius);
-        camera.lookAt(0, -4 - dive * 40, 0);
+        camera.lookAt(0, 14 - dive * 40, 0);
 
         const box = o.canvas.getBoundingClientRect();
         const v = new THREE.Vector3();
