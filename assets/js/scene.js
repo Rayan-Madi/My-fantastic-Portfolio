@@ -53,7 +53,7 @@ export function initScene(o) {
         uNodes: { value: Array.from({ length: MAX_NODES }, () => new THREE.Vector4()) },
         uCount: { value: Math.min(nodes.length, MAX_NODES) },
         uColor: { value: new THREE.Color('#35d6e8') },
-        uFade:  { value: 260 }
+        uFade:  { value: 420 }
     };
     nodes.slice(0, MAX_NODES).forEach((d, i) => {
         uniforms.uNodes.value[i].set(d.x, d.z, d.m * 0.85, d.m * d.m * 3.2);
@@ -83,12 +83,12 @@ export function initScene(o) {
         fragmentShader: `
             uniform vec3 uColor;
             varying float vAlpha;
-            void main() { gl_FragColor = vec4(uColor, vAlpha * 0.30); }`
+            void main() { gl_FragColor = vec4(uColor, vAlpha * 0.34); }`
     });
 
-    const HALF = 260;
-    const step = isSmall ? 38 : 24;   // écart entre deux lignes
-    const seg  = isSmall ? 12 : 7;    // finesse le long d'une ligne
+    const HALF = 440;
+    const step = isSmall ? 50 : 30;   // écart entre deux lignes
+    const seg  = isSmall ? 15 : 9;    // finesse le long d'une ligne
     const pts = [];
     for (let a = -HALF; a <= HALF; a += step) {
         for (let b = -HALF; b < HALF; b += seg) {
@@ -166,8 +166,8 @@ export function initScene(o) {
     });
 
     // ─── Caméra ───────────────────────────────────────────
-    const camY = o.camY ?? 150;
-    const radius = o.radius ?? 330;
+    const camY = o.camY ?? 108;
+    const radius = o.radius ?? 470;
     let angle = 0, drag = 0, dragging = false, lastX = 0, dive = 0;
 
     o.host.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; });
@@ -213,9 +213,12 @@ export function initScene(o) {
         }
 
         if (!reduceMotion) t += .0016;
-        angle = t + drag;
+        // Oscillation bornée plutôt qu'un tour complet : la composition
+        // reste maîtrisée (les étiquettes ne passent pas sur le texte).
+        // Le glissement de l'utilisateur, lui, n'est pas limité.
+        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.12) + drag;
         camera.position.set(Math.sin(angle) * radius, camY + dive * 130, Math.cos(angle) * radius);
-        camera.lookAt(0, 20 - dive * 40, 0);
+        camera.lookAt(0, -4 - dive * 40, 0);
 
         const box = o.canvas.getBoundingClientRect();
         const v = new THREE.Vector3();
