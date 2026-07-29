@@ -196,7 +196,12 @@ export function initScene(o) {
 
     // ─── Boucle : coupée hors écran et onglet en fond ─────
     let visible = true, running = false;
-    let t = 0, last = 0, fps = 60, acc = 0, frames = 0;
+    // Horloge en secondes : l'animation avance au temps réel et non
+    // par image, sinon un écran 144 Hz tournerait deux fois plus vite
+    // qu'un 60 Hz.
+    let clock = 0, last = 0, fps = 60, acc = 0, frames = 0;
+    const TOUR = o.rotation ?? 0.085;   // rad/s — un tour complet en ~74 s
+    const RESPIRE = 1.7;                // rad/s de la respiration des nœuds
 
     new IntersectionObserver(([e]) => { visible = e.isIntersecting; kick(); },
         { threshold: 0.01 }).observe(o.host);
@@ -218,13 +223,10 @@ export function initScene(o) {
             dive += (p - dive) * .08;
         }
 
-        if (!reduceMotion) t += .0034;
-        // Oscillation bornée plutôt qu'un tour complet : la composition
-        // reste maîtrisée (les étiquettes ne passent pas sur le texte).
-        // Le glissement de l'utilisateur, lui, n'est pas limité.
-        // 0,17 rad ≈ 10° sur un cycle d'environ 30 s : perceptible sans
-        // être agité, et les nœuds restent dans le cadre.
-        angle = (o.baseAngle ?? 0) + Math.sin(t) * (o.sweep ?? 0.17) + drag;
+        if (!reduceMotion) clock += Math.min(dt, 100) / 1000;
+        // Rotation complète : la scène vit dans son propre bandeau, donc
+        // plus rien à percuter. Le glissement s'ajoute à la rotation.
+        angle = clock * TOUR + drag;
         camera.position.set(Math.sin(angle) * radius, camY + dive * 130, Math.cos(angle) * radius);
         camera.lookAt(0, 14 - dive * 40, 0);
 
@@ -236,7 +238,7 @@ export function initScene(o) {
             // hauteur du nœud : c'est ce mouvement-là qui se voit, bien
             // plus que l'oscillation de caméra.
             if (!reduceMotion) {
-                const bob = Math.sin(t * 3.1 + it.phase);
+                const bob = Math.sin(clock * RESPIRE + it.phase);
                 const y = it.d.h + bob * 7;
                 it.mesh.position.y = y;
                 it.glow.position.y = y;
